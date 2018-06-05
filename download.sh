@@ -1,1 +1,1 @@
-npm run index.js download
+npm run download

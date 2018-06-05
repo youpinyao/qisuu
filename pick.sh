@@ -1,1 +1,1 @@
-npm run index.js pick
+npm run pick
