@@ -21,7 +21,7 @@ async function doPick(params) {
   const pages = await getPage();
   let contents = [];
 
-  for (page of [pages[0]]) {
+  for (page of pages) {
     const content = await getContent(page);
     await sleep();
     contents = contents.concat(content);
