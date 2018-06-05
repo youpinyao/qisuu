@@ -4,7 +4,8 @@
   "description": "pull www.qisuu.la",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pick": "node index.js pick",
+    "download": "node index.js download"
   },
   "repository": {
     "type": "git",

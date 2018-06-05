@@ -23,6 +23,7 @@ module.exports = function (content) {
       setTimeout(() => {
         resolve();
       });
+      return;
     }
     // The options argument is optional so you can omit it
     progress(request(url), {
@@ -65,6 +66,11 @@ module.exports = function (content) {
         console.log('====================================');
         console.log('download error', err);
         console.log('====================================');
+        try {
+          fs.unlinkSync(saveTo);
+        } catch (error) {
+
+        }
         resolve();
       })
       .on('end', function () {
