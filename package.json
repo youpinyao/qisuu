@@ -1,0 +1,27 @@
+{
+  "name": "qisuu",
+  "version": "1.0.0",
+  "description": "pull www.qisuu.la",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youpinyao/qisuu.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/youpinyao/qisuu/issues"
+  },
+  "homepage": "https://github.com/youpinyao/qisuu#readme",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "cheerio": "^1.0.0-rc.2",
+    "progress": "^2.0.0",
+    "request": "^2.87.0",
+    "request-progress": "^3.0.0",
+    "request-promise": "^4.2.2"
+  }
+}
