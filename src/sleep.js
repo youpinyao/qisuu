@@ -1,4 +1,4 @@
-module.exports = function(delay = 300) {
+module.exports = function(delay = 0) {
   console.log('====================================');
   console.log('sleep', delay);
   console.log('====================================');
