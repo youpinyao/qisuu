@@ -1,11 +1,11 @@
 const config = require('../config');
-const request = require('request-promise');
+const request = require('./request');
 const cheerio = require('cheerio')
 
 const sleep = require('./sleep');
 
 module.exports = async function(url) {
-  // console.log('====================================');
+  console.log('====================================');
   console.log('geting download_url', url);
   // console.log('====================================');
 
@@ -15,7 +15,7 @@ module.exports = async function(url) {
 
   // console.log('====================================');
   console.log('get download url completed', download_url);
-  // console.log('====================================');
+  console.log('====================================');
 
   return new Promise((resolve, reject) => {
     resolve(download_url);

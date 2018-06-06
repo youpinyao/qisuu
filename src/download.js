@@ -66,6 +66,7 @@ module.exports = function (content) {
         console.log('====================================');
         console.log('download error', err);
         console.log('====================================');
+        fs.writeFileSync(`./fail/${content.download_url.replace(/\//g, '$')}`, content.download_url);
         try {
           fs.unlinkSync(saveTo);
         } catch (error) {

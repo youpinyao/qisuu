@@ -17,6 +17,14 @@ if (!fs.existsSync('json')) {
   fs.mkdirSync('json')
 }
 
+if (!fs.existsSync('fail')) {
+  fs.mkdirSync('fail')
+}
+
+if (!fs.existsSync('cache')) {
+  fs.mkdirSync('cache')
+}
+
 async function doPick(params) {
   const pages = await getPage();
   let contents = [];

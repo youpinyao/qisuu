@@ -1,7 +1,7 @@
 const config = require('../config');
 const fs = require('fs');
 const chalk = require('chalk');
-const request = require('request-promise');
+const request = require('./request');
 const cheerio = require('cheerio');
 
 const sleep = require('./sleep');
