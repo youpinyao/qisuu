@@ -26,9 +26,7 @@ module.exports = function (content) {
       console.log('====================================');
       console.log(`${saveTo} 已存在`);
       console.log('====================================');
-      setTimeout(() => {
-        resolve();
-      });
+      setTimeout(() => resolve());
       return;
     }
     // The options argument is optional so you can omit it
