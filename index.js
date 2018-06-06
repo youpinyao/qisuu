@@ -9,20 +9,10 @@ const sleep = require('./src/sleep');
 
 const listPath = './json/list.json';
 
-if (!fs.existsSync('download')) {
-  fs.mkdirSync('download')
-}
+let oldContents = [];
 
-if (!fs.existsSync('json')) {
-  fs.mkdirSync('json')
-}
-
-if (!fs.existsSync('fail')) {
-  fs.mkdirSync('fail')
-}
-
-if (!fs.existsSync('cache')) {
-  fs.mkdirSync('cache')
+if (fs.existsSync(listPath)) {
+  oldContents = JSON.parse(fs.readFileSync(listPath));
 }
 
 async function doPick(params) {
@@ -30,12 +20,12 @@ async function doPick(params) {
   let contents = [];
 
   for (page of pages) {
-    const content = await getContent(page);
+    const content = await getContent(page, oldContents);
     await sleep();
     contents = contents.concat(content);
   }
 
-  fs.writeFileSync(listPath, JSON.stringify(contents));
+  fs.writeFileSync(listPath, JSON.stringify(contents.concat(oldContents)));
 
   console.log('====================================');
   console.log('pick completed');
@@ -59,6 +49,24 @@ async function doDownload() {
   console.log('download completed');
   console.log('====================================');
 }
+
+
+if (!fs.existsSync('download')) {
+  fs.mkdirSync('download')
+}
+
+if (!fs.existsSync('json')) {
+  fs.mkdirSync('json')
+}
+
+if (!fs.existsSync('fail')) {
+  fs.mkdirSync('fail')
+}
+
+if (!fs.existsSync('cache')) {
+  fs.mkdirSync('cache')
+}
+
 
 if (!type || type === 'pick') {
   doPick();
