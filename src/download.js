@@ -5,6 +5,12 @@ const ProgressBar = require('progress');
 const progress = require('request-progress');
 
 module.exports = function (content) {
+  if (!content.download_url) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => resolve());
+    });
+  }
+
   let bar = null;
   let transferred = 0;
   let url = content.download_url.split('/');

@@ -11,7 +11,13 @@ module.exports = async function(url) {
 
   const html = await request(url);
   const $ = cheerio.load(html);
-  const download_url = $('.showDown script').html().split('\',\'')[1];
+  let download_url = $('.showDown script').html();
+
+  if (download_url) {
+    download_url = download_url.split('\',\'')[1];
+  } else {
+    download_url = '';
+  }
 
   // console.log('====================================');
   console.log('get download url completed', download_url);
