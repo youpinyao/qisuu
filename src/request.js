@@ -3,10 +3,10 @@ const fs = require('fs');
 const chalk = require('chalk');
 
 module.exports = function (...args) {
-  return request(2, ...args);
+  return doRequest(2, ...args);
 }
 
-function request(retry, ...args) {
+function doRequest(retry, ...args) {
   const cachePath = `./cache/${args[0].replace(/\//g, '$')}`;
   return new Promise((resolve, reject) => {
     if (fs.existsSync(cachePath)) {
@@ -19,7 +19,7 @@ function request(retry, ...args) {
       fs.writeFileSync(cachePath, res);
     }, (res) => {
       if (retry) {
-        return request(retry--, ...args);
+        return doRequest(retry--, ...args);
       } else {
         fs.writeFileSync(`./fail/${args[0].replace(/\//g, '$')}`, res);
         resolve('');
