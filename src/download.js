@@ -14,21 +14,22 @@ module.exports = function (content) {
   let bar = null;
   let transferred = 0;
   let url = content.download_url.split('/');
-  const saveTo = `download/${content.filename}`;
+  const saveTo = `download/${content.date}-${content.filename}`;
 
   url[url.length - 1] = encodeURIComponent(url[url.length - 1]);
 
   url = url.join('/');
 
   return new Promise((resolve, reject) => {
-    // 如果存在就下载
+    // 如果存在就不下载
     if (fs.existsSync(saveTo)) {
       console.log('====================================');
-      console.log(`${saveTo} 已存在`);
+      console.log(chalk.yellow(`${saveTo} 已存在`));
       console.log('====================================');
       setTimeout(() => resolve());
       return;
     }
+
     // The options argument is optional so you can omit it
     progress(request(url), {
         // throttle: 2000,                    // Throttle the progress event to 2000ms, defaults to 1000ms
@@ -84,6 +85,8 @@ module.exports = function (content) {
         console.log('====================================');
         console.log('download completed', content.download_url);
         console.log('====================================');
+        console.log('');
+
         resolve();
       })
       .pipe(fs.createWriteStream(saveTo));
