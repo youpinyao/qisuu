@@ -35,6 +35,9 @@ module.exports = function (content) {
     if (!fs.existsSync(downloadingTo)) {
       fs.writeFileSync(downloadingTo);
     } else {
+      console.log('====================================');
+      console.log(chalk.yellow(`删除未下载完成${saveTo}`));
+      console.log('====================================');
       fs.unlinkSync(saveTo);
     }
 
