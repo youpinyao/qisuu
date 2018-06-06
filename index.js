@@ -55,6 +55,10 @@ if (!fs.existsSync('download')) {
   fs.mkdirSync('download')
 }
 
+if (!fs.existsSync('downloading')) {
+  fs.mkdirSync('downloading')
+}
+
 if (!fs.existsSync('json')) {
   fs.mkdirSync('json')
 }

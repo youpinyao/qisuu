@@ -15,6 +15,7 @@ module.exports = function (content) {
   let transferred = 0;
   let url = content.download_url.split('/');
   const saveTo = `download/${content.date}-${content.filename}`;
+  const downloadingTo = `downloading/${content.date}-${content.filename}`;
 
   url[url.length - 1] = encodeURIComponent(url[url.length - 1]);
 
@@ -22,12 +23,19 @@ module.exports = function (content) {
 
   return new Promise((resolve, reject) => {
     // 如果存在就不下载
-    if (fs.existsSync(saveTo)) {
+    if (fs.existsSync(saveTo) && !fs.existsSync(downloadingTo)) {
       console.log('====================================');
       console.log(chalk.yellow(`${saveTo} 已存在`));
       console.log('====================================');
       setTimeout(() => resolve());
       return;
+    }
+
+    // 标记下载中
+    if (!fs.existsSync(downloadingTo)) {
+      fs.writeFileSync(downloadingTo);
+    } else {
+      fs.unlinkSync(saveTo);
     }
 
     // The options argument is optional so you can omit it
@@ -86,6 +94,9 @@ module.exports = function (content) {
         console.log('download completed', content.download_url);
         console.log('====================================');
         console.log('');
+
+        // 删除下载中标记
+        fs.unlinkSync(downloadingTo);
 
         resolve();
       })
