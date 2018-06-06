@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "pick": "node index.js pick",
-    "download": "node index.js download"
+    "download": "node index.js download",
+    "clear:cache": "rm -rf ./cache"
   },
   "repository": {
     "type": "git",
