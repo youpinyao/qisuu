@@ -38,7 +38,13 @@ module.exports = function (content) {
       console.log('====================================');
       console.log(chalk.yellow(`删除未下载完成 重新下载 ${saveTo}`));
       console.log('====================================');
-      fs.unlinkSync(saveTo);
+      try {
+        fs.unlinkSync(saveTo);
+      } catch (error) {
+        console.log('====================================');
+        console.error(error);
+        console.log('====================================');
+      }
     }
 
     // The options argument is optional so you can omit it
