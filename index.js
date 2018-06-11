@@ -50,6 +50,36 @@ async function doDownload() {
   console.log('====================================');
 }
 
+async function doClearRepeat(params) {
+  let newContent = [];
+  const keys = {};
+  console.log('====================================');
+  console.log('clear repeat start', oldContents.length);
+  console.log('====================================');
+
+  oldContents.forEach(item => {
+    const key = `${item.title}-${item.filename}`;
+    const keyItem = keys[key];
+    if (!keyItem) {
+      keys[key] = item;
+    } else if((+new Date(item.date) > (+new Date(keyItem.date)))) {
+      console.log(chalk.yellow(`${keyItem.date} to ${item.date} ${keyItem.title}-${keyItem.filename}`));
+      keys[key] = item;
+    } else {
+      console.log(chalk.yellow(`${item.date} to ${keyItem.date} ${keyItem.title}-${keyItem.filename}`));
+    }
+  });
+
+  newContent = Object.keys(keys).map(key => keys[key]);
+
+  console.log('====================================');
+  console.log('clear repeat success', newContent.length);
+  console.log('====================================');
+
+  fs.writeFileSync(listPath, JSON.stringify(newContent));
+
+}
+
 
 if (!fs.existsSync('download')) {
   fs.mkdirSync('download')
@@ -76,4 +106,6 @@ if (!type || type === 'pick') {
   doPick();
 } else if (type === 'download') {
   doDownload();
+} else if (type === 'clear-repeat') {
+  doClearRepeat();
 }
