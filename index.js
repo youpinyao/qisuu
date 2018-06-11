@@ -60,13 +60,20 @@ async function doClearRepeat(params) {
   oldContents.forEach(item => {
     const key = `${item.title}-${item.filename}`;
     const keyItem = keys[key];
+
     if (!keyItem) {
       keys[key] = item;
     } else if((+new Date(item.date) > (+new Date(keyItem.date)))) {
+      const saveTo = `download/${keyItem.date}-${keyItem.filename}`;
       console.log(chalk.yellow(`${keyItem.date} to ${item.date} ${keyItem.title}-${keyItem.filename}`));
       keys[key] = item;
+
+      if (fs.existsSync(saveTo)) fs.unlinkSync(saveTo);
     } else {
+      const saveTo = `download/${item.date}-${item.filename}`;
       console.log(chalk.yellow(`${item.date} to ${keyItem.date} ${keyItem.title}-${keyItem.filename}`));
+
+      if (fs.existsSync(saveTo)) fs.unlinkSync(saveTo);
     }
   });
 
