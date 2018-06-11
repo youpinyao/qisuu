@@ -121,4 +121,18 @@ if (!type || type === 'pick') {
   doDownload();
 } else if (type === 'clear-repeat') {
   doClearRepeat();
+} else if (type === 'clear-repeat-force') {
+  oldContents = fs.readdirSync('download');
+
+  oldContents = oldContents.map(item => {
+    const arr = item.split('-');
+    return {
+      title: arr.splice(3, arr.length).join('-'),
+      filename: arr.splice(3, arr.length).join('-'),
+      date: arr.splice(0, 3).join('-'),
+    };
+  });
+
+  doClearRepeat();
 }
+

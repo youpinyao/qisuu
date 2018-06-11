@@ -7,7 +7,8 @@
     "pick": "node index.js pick",
     "download": "node index.js download",
     "clear:cache": "rm -rf ./cache",
-    "clear:repeat": "node index.js clear-repeat"
+    "clear:repeat": "node index.js clear-repeat",
+    "clear:repeat-force": "node index.js clear-repeat-force"
   },
   "repository": {
     "type": "git",
