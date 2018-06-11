@@ -68,12 +68,18 @@ async function doClearRepeat(params) {
       console.log(chalk.yellow(`${keyItem.date} to ${item.date} ${keyItem.title}-${keyItem.filename}`));
       keys[key] = item;
 
-      if (fs.existsSync(saveTo)) fs.unlinkSync(saveTo);
+      if (fs.existsSync(saveTo)) {
+        fs.unlinkSync(saveTo);
+        console.log(chalk.yellow(`删除文件 ${saveTo}`));
+      };
     } else {
       const saveTo = `download/${item.date}-${item.filename}`;
       console.log(chalk.yellow(`${item.date} to ${keyItem.date} ${keyItem.title}-${keyItem.filename}`));
 
-      if (fs.existsSync(saveTo)) fs.unlinkSync(saveTo);
+      if (fs.existsSync(saveTo)) {
+        fs.unlinkSync(saveTo);
+        console.log(chalk.yellow(`删除文件 ${saveTo}`));
+      };
     }
   });
 
