@@ -22,7 +22,7 @@ function doRequest(retry, ...args) {
         console.log('====================================');
         console.log(chalk.red(`retry ${retry} request fail ${args[0]}`));
         console.log('====================================');
-        return doRequest(retry--, ...args);
+        return doRequest(--retry, ...args);
       } else {
         fs.writeFileSync(`./fail/${args[0].replace(/\//g, '$')}`, res);
         resolve('');
