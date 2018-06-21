@@ -1,138 +1,70 @@
-const fs = require('fs');
-const chalk = require('chalk');
-const type = process.argv[2];
+#!/usr/bin/env node
 
-const download = require('./src/download');
-const getPage = require('./src/page');
-const getContent = require('./src/content');
-const sleep = require('./src/sleep');
+const fs = require('fs')
+const commander = require('commander')
 
-const listPath = './json/list.json';
+const doPick = require('./src/action/pick');
+const doDownload = require('./src/action/download');
+const doClearCache = require('./src/action/clear-cache');
+const doClearRepeat = require('./src/action/clear-repeat');
+const doClearRepeatForce = require('./src/action/clear-repeat-force')
+const doSearch = require('./src/action/search');
 
-let oldContents = [];
+const {
+  downloadingPath,
+  downloadPath,
+  jsonPath,
+  failPath,
+  cachePath,
+} = require('./src/config');
 
-if (fs.existsSync(listPath)) {
-  oldContents = JSON.parse(fs.readFileSync(listPath));
+if (!fs.existsSync(downloadPath)) {
+  fs.mkdirSync(downloadPath)
 }
 
-async function doPick(params) {
-  const pages = await getPage();
-  let contents = [];
-
-  for (page of pages) {
-    const content = await getContent(page, oldContents);
-    await sleep();
-    contents = contents.concat(content);
-  }
-
-  fs.writeFileSync(listPath, JSON.stringify(contents.concat(oldContents)));
-
-  console.log('====================================');
-  console.log('pick completed');
-  console.log('====================================');
+if (!fs.existsSync(downloadingPath)) {
+  fs.mkdirSync(downloadingPath)
 }
 
-async function doDownload() {
-  if (!fs.existsSync(listPath)) {
-    console.log('====================================');
-    console.log(chalk.red('请先抓取列表 npm run pick'));
-    console.log('====================================');
-    return;
-  }
-
-  const contents = JSON.parse(fs.readFileSync(listPath));
-  for (content of contents) {
-    await download(content);
-    await sleep();
-  }
-  console.log('====================================');
-  console.log('download completed');
-  console.log('====================================');
+if (!fs.existsSync(jsonPath)) {
+  fs.mkdirSync(jsonPath)
 }
 
-async function doClearRepeat(params) {
-  let newContent = [];
-  const keys = {};
-  console.log('====================================');
-  console.log('clear repeat start', oldContents.length);
-  console.log('====================================');
+if (!fs.existsSync(failPath)) {
+  fs.mkdirSync(failPath)
+}
 
-  oldContents.forEach(item => {
-    const key = `${item.title}-${item.filename}`;
-    const keyItem = keys[key];
+if (!fs.existsSync(cachePath)) {
+  fs.mkdirSync(cachePath)
+}
 
-    if (!keyItem) {
-      keys[key] = item;
-    } else if((+new Date(item.date) > (+new Date(keyItem.date)))) {
-      const saveTo = `download/${keyItem.date}-${keyItem.filename}`;
-      console.log(chalk.yellow(`${keyItem.date} to ${item.date} ${keyItem.title}-${keyItem.filename}`));
-      keys[key] = item;
-
-      if (fs.existsSync(saveTo)) {
-        fs.unlinkSync(saveTo);
-        console.log(chalk.yellow(`删除文件 ${saveTo}`));
-      };
-    } else {
-      const saveTo = `download/${item.date}-${item.filename}`;
-      console.log(chalk.yellow(`${item.date} to ${keyItem.date} ${keyItem.title}-${keyItem.filename}`));
-
-      if (fs.existsSync(saveTo)) {
-        fs.unlinkSync(saveTo);
-        console.log(chalk.yellow(`删除文件 ${saveTo}`));
-      };
+commander
+  .version(require('./package.json').version)
+  .arguments('<cmd> [params1] [params2]')
+  .action((cmd, params1, params2) => {
+    switch (cmd) {
+      case 'pick':
+        doPick()
+        break
+      case 'download':
+        doDownload();
+        break;
+      case 'clear-cache':
+        doClearCache();
+        break;
+      case 'clear-repeat':
+        doClearRepeat();
+        break;
+      case 'clear-repeat-force':
+        doClearRepeatForce();
+        break;
+      case 'search':
+        doSearch(params1, params2);
     }
-  });
-
-  newContent = Object.keys(keys).map(key => keys[key]);
-
-  console.log('====================================');
-  console.log('clear repeat success', newContent.length);
-  console.log('====================================');
-
-  fs.writeFileSync(listPath, JSON.stringify(newContent));
-
-}
-
-
-if (!fs.existsSync('download')) {
-  fs.mkdirSync('download')
-}
-
-if (!fs.existsSync('downloading')) {
-  fs.mkdirSync('downloading')
-}
-
-if (!fs.existsSync('json')) {
-  fs.mkdirSync('json')
-}
-
-if (!fs.existsSync('fail')) {
-  fs.mkdirSync('fail')
-}
-
-if (!fs.existsSync('cache')) {
-  fs.mkdirSync('cache')
-}
-
-
-if (!type || type === 'pick') {
-  doPick();
-} else if (type === 'download') {
-  doDownload();
-} else if (type === 'clear-repeat') {
-  doClearRepeat();
-} else if (type === 'clear-repeat-force') {
-  oldContents = fs.readdirSync('download');
-
-  oldContents = oldContents.map(item => {
-    const arr = item.split('-');
-    return {
-      title: [].concat(arr).splice(3, arr.length - 3).join('-'),
-      filename: [].concat(arr).splice(3, arr.length - 3).join('-'),
-      date: arr.splice(0, 3).join('-'),
-    };
-  });
-
-  doClearRepeat();
-}
-
+  })
+  .on('--help', function(){
+    console.log('');
+    console.log('qisuu search <searchKey>');
+    console.log('');
+  })
+  .parse(process.argv)
