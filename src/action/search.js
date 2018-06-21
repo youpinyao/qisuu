@@ -1,4 +1,5 @@
 const cheerio = require('cheerio');
+const queryString = require('query-string');
 const chalk = require('chalk');
 const path = require('path');
 
@@ -7,23 +8,49 @@ const config = require('../config');
 const getDetail = require('../util/detail');
 const download = require('../util/download');
 
-var List = require('prompt-list');
+const List = require('prompt-list');
+
+const params = {
+  cc: 'qisuu.la',
+  s: '6107665092019918800',
+  q: '',
+  p: -1,
+}
 
 module.exports = async function (searchKey, downloadTo) {
   if (!searchKey) {
+    console.log();
     console.log(chalk.red('请输入搜索关键字'));
     console.log();
-
     return;
   }
 
-  const html = await request(`${config.searchUrl}${encodeURIComponent(searchKey)}`);
-  const $ = cheerio.load(html);
+  params.q = searchKey;
 
-  const data = Array.prototype.map.call($('.content-main .result .c-title a'), item => ({
-    text: $(item).text(),
-    url: $(item).attr('href'),
-  })).filter(item => item.text.endsWith(',txt全集下载,电子书-奇书网'));
+  let html = null;
+  let $ = null;
+  let pageSize = 0;
+  const data = [];
+
+  while (params.p < pageSize) {
+    params.p ++;
+
+    html = await request(`${config.searchUrl}?${queryString.stringify(params)}`);
+    $ = cheerio.load(html);
+    pageSize = parseInt($('#pageFooter > *').last().prev().find('.pager-normal-foot').text(), 10) || 0;
+
+    if (pageSize < 0) {
+      pageSize = 0;
+    }
+
+    Array.prototype.map.call($('.content-main .result .c-title a'), item => ({
+      text: $(item).text(),
+      url: $(item).attr('href'),
+    })).filter(item => item.text.endsWith(',txt全集下载,电子书-奇书网')).forEach(item => data.push(item));
+
+    console.log(chalk.yellow(`load page ${params.p + 1}`));
+
+  }
 
   if (!data.length) {
     console.log(chalk.red('搜索结果为空'));
