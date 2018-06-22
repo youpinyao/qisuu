@@ -48,7 +48,7 @@ module.exports = async function (searchKey, downloadTo) {
       url: $(item).attr('href'),
     })).filter(item => item.text.endsWith(',txt全集下载,电子书-奇书网')).forEach(item => data.push(item));
 
-    console.log(chalk.yellow(`load page ${params.p + 1}`));
+    console.log(chalk.yellow(`search page ${params.p + 1}`));
 
   }
 
@@ -57,11 +57,19 @@ module.exports = async function (searchKey, downloadTo) {
     return;
   }
 
+  const line = {
+    name: '============我是分割线==============',
+    disabled: true,
+  };
+  const choices = data.map(item => item.text);
+
+  choices.push(line);
+
   const list = new List({
     name: '选择',
     message: '选择其中一个下载',
     // choices may be defined as an array or a function that returns an array
-    choices: data.map(item => item.text),
+    choices,
   });
 
   const answer = await list.run();

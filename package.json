@@ -1,6 +1,6 @@
 {
   "name": "qisuu",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "pull www.qisuu.la",
   "main": "index.js",
   "scripts": {

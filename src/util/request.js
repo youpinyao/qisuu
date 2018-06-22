@@ -12,7 +12,8 @@ module.exports = function (...args) {
 }
 
 function doRequest(retry, ...args) {
-  const cachePath = `${cache}/${args[0].replace(/\//g, '$')}`
+  const cachePath = `${cache}/${args[0].replace(/\//g, '$')}`;
+
   return new Promise((resolve) => {
     if (fs.existsSync(cachePath)) {
       resolve(fs.readFileSync(cachePath))
