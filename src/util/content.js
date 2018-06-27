@@ -22,8 +22,8 @@ module.exports = async function (page, oldContents) {
 
   const html = await request(page)
   const $ = cheerio.load(html)
-  const contents = []
-  const downloads = []
+  let contents = []
+  const details = []
 
   $('.listBox ul li').each(function () {
     const desc = `${$(this).find('.s').text()}`.split('作者：').join('$').split('大小：').join('$').split('等级：').join('$').split('更新：').join('$').split('$').filter(item => !!item)
@@ -49,13 +49,18 @@ module.exports = async function (page, oldContents) {
   for(let content of contents) {
     const detail = await getDetail(content.page_url)
     await sleep()
-    downloads.push(detail.download_url)
+    details.push(detail)
   }
 
-  contents.forEach((content, index) => {
-    const filename = downloads[index].split('/')
-    content.download_url = downloads[index]
-    content.filename = filename[filename.length - 1]
+  contents = contents.map((content, index) => {
+    const detail = details[index];
+    const filename = detail.download_url.split('/');
+
+    return {
+      ...content,
+      ...detail,
+      filename: filename[filename.length - 1]
+    }
   })
 
   console.log('====================================')
