@@ -11,7 +11,8 @@
     "clear-repeat-force": "node index.js clear-repeat-force",
     "search": "node index.js search",
 
-    "serve": "forever server.js"
+    "serve": "forever start server.js",
+    "serve:stop": "forever stop server.js"
   },
   "bin": {
     "qisuu": "./index.js"
