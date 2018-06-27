@@ -19,6 +19,10 @@ const options = {
 let dataCache = null;
 let isRuning = false;
 
+if (fs.existsSync(dateCachePath)) {
+  dataCache = fs.readFileSync(dateCachePath).toString();
+}
+
 
 async function run() {
   isRuning = true;
