@@ -9,6 +9,7 @@ const doClearCache = require('./src/action/clear-cache');
 const doClearRepeat = require('./src/action/clear-repeat');
 const doClearRepeatForce = require('./src/action/clear-repeat-force')
 const doSearch = require('./src/action/search');
+const generateRss = require('./src/action/rss');
 
 const {
   downloadingPath,
@@ -60,9 +61,13 @@ commander
         break;
       case 'search':
         doSearch(params1, params2);
+        break;
+      case 'rss':
+        generateRss();
+        break;
     }
   })
-  .on('--help', function(){
+  .on('--help', function () {
     console.log('');
     console.log('qisuu search <searchKey>');
     console.log('');
