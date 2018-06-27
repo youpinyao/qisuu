@@ -4,3 +4,6 @@ json
 fail
 cache
 downloading
+forever.log
+err.log
+out.log

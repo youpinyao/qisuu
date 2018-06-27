@@ -10,8 +10,8 @@
     "clear-repeat": "node index.js clear-repeat",
     "clear-repeat-force": "node index.js clear-repeat-force",
     "search": "node index.js search",
-    "autorun": "forever start autorun.js",
-    "autorun:stop": "forever stop autorun.js",
+    "autorun": "forever -l forever.log -o out.log -e err.log start autorun.js",
+    "autorun:stop": "forever -l forever.log -o out.log -e err.log stop autorun.js",
     "rss": "node index.js rss"
   },
   "bin": {

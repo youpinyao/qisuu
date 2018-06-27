@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
 const commander = require('commander')
 
 const doPick = require('./src/action/pick');
@@ -11,33 +10,8 @@ const doClearRepeatForce = require('./src/action/clear-repeat-force')
 const doSearch = require('./src/action/search');
 const generateRss = require('./src/action/rss');
 
-const {
-  downloadingPath,
-  downloadPath,
-  jsonPath,
-  failPath,
-  cachePath,
-} = require('./src/config');
-
-if (!fs.existsSync(downloadPath)) {
-  fs.mkdirSync(downloadPath)
-}
-
-if (!fs.existsSync(downloadingPath)) {
-  fs.mkdirSync(downloadingPath)
-}
-
-if (!fs.existsSync(jsonPath)) {
-  fs.mkdirSync(jsonPath)
-}
-
-if (!fs.existsSync(failPath)) {
-  fs.mkdirSync(failPath)
-}
-
-if (!fs.existsSync(cachePath)) {
-  fs.mkdirSync(cachePath)
-}
+// 检查文件夹
+require('./src/util/check-dir');
 
 commander
   .version(require('./package.json').version)

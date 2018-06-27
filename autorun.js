@@ -1,10 +1,16 @@
 const spawn = require('cross-spawn');
 const fs = require('fs');
 const moment = require('moment');
+const chalk = require('chalk');
+
+// 检查文件夹
+require('./src/util/check-dir');
+
+const {
+  dateCachePath,
+} = require('./src/config');
 
 const format = 'YYYY-MM-DD';
-
-const config = require('./src/config');
 
 const options = {
   stdio: 'inherit',
@@ -13,9 +19,6 @@ const options = {
 let dataCache = null;
 let isRuning = false;
 
-if (fs.existsSync(config.dateCachePath)) {
-  dataCache = fs.readFileSync(config.dateCachePath).toString();
-}
 
 async function run() {
   isRuning = true;
@@ -35,8 +38,10 @@ async function check() {
 
   if (dataCache !== currentDate && !isRuning) {
     dataCache = currentDate;
-    fs.writeFileSync(config.dateCachePath, dataCache);
+    fs.writeFileSync(dateCachePath, dataCache);
     run();
+  } else {
+    console.log(chalk.yellow(`dataCache ${dataCache} | currentDate ${currentDate}`));
   }
 }
 
