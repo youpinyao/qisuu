@@ -18,7 +18,7 @@ module.exports = async function() {
   const pages = await getPage()
   let contents = []
 
-  for (let page of pages) {
+  for (let page of [pages[0]]) {
     const content = await getContent(page, oldContents)
     await sleep()
     contents = contents.concat(content)

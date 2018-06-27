@@ -9,7 +9,7 @@ const rssTemplate = `
   <channel>
     <title>{{$value.title}}</title>
     <link>{{$value.download_url}}</link>
-    <description>{{$value.auth}} {{$value.size}} {{$value.date}}</description>
+    <description>{{$value.author}} {{$value.size}} {{$value.date}}</description>
   </channel>
   {{/each}}
 </rss>
