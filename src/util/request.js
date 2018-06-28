@@ -8,10 +8,10 @@ const {
 } = require('../config');
 
 module.exports = function (...args) {
-  return doRequest(2, ...args)
+  return doRequest(10, null, ...args)
 }
 
-function doRequest(retry, ...args) {
+function doRequest(retry, oldResolve, ...args) {
   const date = args[1];
   let cachePath = `${cache}/${args[0].replace(/\//g, '$')}`;
 
@@ -27,16 +27,18 @@ function doRequest(retry, ...args) {
     }
     request(...args).then((res) => {
       resolve(res)
+      oldResolve && oldResolve(res);
       fs.writeFileSync(cachePath, res)
     }, (res) => {
       if (retry) {
         console.log('====================================')
         console.log(chalk.red(`retry ${retry} request fail ${args[0]}`))
         console.log('====================================')
-        return doRequest(--retry, ...args)
+        return doRequest(--retry, oldResolve || resolve, ...args)
       } else {
         fs.writeFileSync(`${failPath}/${args[0].replace(/\//g, '$')}`, res)
         resolve('')
+        oldResolve && oldResolve('');
       }
     })
   })
