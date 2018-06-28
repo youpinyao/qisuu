@@ -10,7 +10,8 @@ export default {
   state: {
     tableData: [],
     searchKey: '',
-    push_mail: '8618650808852@kindle.cn',
+    push_mail: '',
+    // push_mail: '8618650808852@kindle.cn',
     // push_mail: '497400448@qq.com',
     current_row: null,
     pagination: {
