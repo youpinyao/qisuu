@@ -12,10 +12,10 @@ module.exports = async function(content) {
   const html = await request(content.page_url, content.date)
   const $ = cheerio.load(html)
   const detail = {
-    title: $('.detail_right h1').text(),
-    author: $('.detail_right ul li').eq(5).text().split('：')[1],
-    size: $('.detail_right ul li').eq(1).text().split('：')[1],
-    date: $('.detail_right ul li').eq(3).text().split('：')[1],
+    title: ($('.detail_right h1').text() || '').trim(),
+    author: ($('.detail_right ul li').eq(5).text().split('：')[1] || '').trim(),
+    size: ($('.detail_right ul li').eq(1).text().split('：')[1] || '').trim(),
+    date: ($('.detail_right ul li').eq(3).text().split('：')[1] || '').trim(),
     page_url: content.content,
     chapter: `${config.origin}${$('.detail_right ul li').eq(7).find('a').attr('href')}`,
     chapters: [],
@@ -43,7 +43,7 @@ module.exports = async function(content) {
   }
 
   // console.log('====================================');
-  console.log('get detail completed', detail.title)
+  console.log('get detail completed', `${detail.title}-${detail.author}`)
   console.log('====================================')
 
   return new Promise((resolve) => {
