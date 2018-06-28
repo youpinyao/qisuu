@@ -11,7 +11,7 @@ module.exports = async function() {
   const pages = await getPage()
   let contents = []
 
-  for (let page of [pages[0]]) {
+  for (let page of pages) {
     const content = await getContent(page)
     contents = contents.concat(content)
   }
