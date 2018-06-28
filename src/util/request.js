@@ -12,7 +12,12 @@ module.exports = function (...args) {
 }
 
 function doRequest(retry, ...args) {
-  const cachePath = `${cache}/${args[0].replace(/\//g, '$')}`;
+  const date = args[1];
+  let cachePath = `${cache}/${args[0].replace(/\//g, '$')}`;
+
+  if (date) {
+    cachePath += +(new Date(date));
+  }
 
   return new Promise((resolve) => {
     if (fs.existsSync(cachePath)) {

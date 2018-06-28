@@ -1,24 +1,15 @@
 const config = require('../config')
+// eslint-disable-next-line
 const chalk = require('chalk')
 const request = require('./request')
 const cheerio = require('cheerio')
 
-const sleep = require('./sleep')
 const getDetail = require('./detail')
 
-let oldContentsJson = null
-
-module.exports = async function (page, oldContents) {
+module.exports = async function (page) {
   console.log('====================================')
   console.log('geting contents', page)
   console.log('====================================')
-
-  if (!oldContentsJson) {
-    oldContentsJson = {}
-    oldContents.forEach(item => {
-      oldContentsJson[`${item.date}-${item.title}`] = item
-    })
-  }
 
   const html = await request(page)
   const $ = cheerio.load(html)
@@ -37,18 +28,11 @@ module.exports = async function (page, oldContents) {
       download_url: '',
       filename: '',
     }
-    const oldContent = oldContentsJson[`${content.date}-${content.title}`]
-
-    if (!oldContent) {
-      contents.push(content)
-    } else {
-      console.log(chalk.yellow(`已存在 ${content.date}-${content.title}`))
-    }
+    contents.push(content)
   })
 
   for(let content of contents) {
     const detail = await getDetail(content.page_url)
-    await sleep()
     details.push(detail)
   }
 

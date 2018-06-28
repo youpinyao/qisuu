@@ -27,11 +27,9 @@ if (fs.existsSync(dateCachePath)) {
 async function run() {
   isRuning = true;
 
-  // spawn.sync('npm', ['run', 'clear-cache'], options);
+  spawn.sync('npm', ['run', 'clear-cache'], options);
   spawn.sync('npm', ['run', 'pick'], options);
-  spawn.sync('npm', ['run', 'clear-repeat'], options);
   spawn.sync('npm', ['run', 'download'], options);
-  spawn.sync('npm', ['run', 'clear-repeat-force'], options);
   spawn.sync('npm', ['run', 'rss'], options);
 
   isRuning = false;

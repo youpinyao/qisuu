@@ -5,8 +5,6 @@ const commander = require('commander')
 const doPick = require('./src/action/pick');
 const doDownload = require('./src/action/download');
 const doClearCache = require('./src/action/clear-cache');
-const doClearRepeat = require('./src/action/clear-repeat');
-const doClearRepeatForce = require('./src/action/clear-repeat-force')
 const doSearch = require('./src/action/search');
 const generateRss = require('./src/action/rss');
 
@@ -26,12 +24,6 @@ commander
         break;
       case 'clear-cache':
         doClearCache();
-        break;
-      case 'clear-repeat':
-        doClearRepeat();
-        break;
-      case 'clear-repeat-force':
-        doClearRepeatForce();
         break;
       case 'search':
         doSearch(params1, params2);

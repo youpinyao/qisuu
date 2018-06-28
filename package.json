@@ -34,6 +34,7 @@
     "commander": "^2.15.1",
     "cross-spawn": "^6.0.5",
     "forever": "^0.15.3",
+    "he": "^1.1.1",
     "moment": "^2.22.2",
     "progress": "^2.0.0",
     "prompt-list": "^3.2.0",

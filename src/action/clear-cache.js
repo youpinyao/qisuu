@@ -9,9 +9,11 @@ module.exports = async function () {
     const files = fs.readdirSync(cachePath);
 
     for(let file of files) {
-      fs.unlinkSync(`${cachePath}/${file}`);
+      if (/\$s\$new\$/g.test(file)) {
+        fs.unlinkSync(`${cachePath}/${file}`);
+      }
     }
 
-    fs.rmdirSync(cachePath);
+    // fs.rmdirSync(cachePath);
   }
 };

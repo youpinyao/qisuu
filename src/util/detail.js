@@ -33,9 +33,9 @@ module.exports = async function(page_url) {
   }
 
   if (detail.chapter) {
-    const chapterHtml = await request(detail.chapter);
+    const chapterHtml = await request(detail.chapter, detail.date);
     const $c = cheerio.load(chapterHtml);
-    const chapters = $c('.info').last().find('.pc_list ul li a');
+    const chapters = $c('#info').last().find('.pc_list ul li a');
 
     detail.chapters = Array.prototype.map.call(chapters, (item) => {
       return `${detail.chapter}${$c(item).attr('href')}`;
@@ -43,7 +43,7 @@ module.exports = async function(page_url) {
   }
 
   // console.log('====================================');
-  console.log('get detail completed', JSON.stringify(detail))
+  console.log('get detail completed', detail.title)
   console.log('====================================')
 
   return new Promise((resolve) => {
