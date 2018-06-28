@@ -8,7 +8,7 @@ const rssTemplate = `
   {{each list}}
   <channel>
     <title>{{$value.title}}</title>
-    <link>{{$value.download_url}}</link>
+    <link>{{$value.page_url}}</link>
     <description>{{$value.author}} {{$value.size}} {{$value.date}}</description>
   </channel>
   {{/each}}

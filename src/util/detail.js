@@ -4,19 +4,19 @@ const cheerio = require('cheerio')
 
 const config = require('../config');
 
-module.exports = async function(page_url) {
+module.exports = async function(content) {
   console.log('====================================')
-  console.log('geting detail', page_url)
+  console.log('geting detail', content.page_url)
   // console.log('====================================');
 
-  const html = await request(page_url)
+  const html = await request(content.page_url, content.date)
   const $ = cheerio.load(html)
   const detail = {
     title: $('.detail_right h1').text(),
     author: $('.detail_right ul li').eq(5).text().split('：')[1],
     size: $('.detail_right ul li').eq(1).text().split('：')[1],
     date: $('.detail_right ul li').eq(3).text().split('：')[1],
-    page_url,
+    page_url: content.content,
     chapter: `${config.origin}${$('.detail_right ul li').eq(7).find('a').attr('href')}`,
     chapters: [],
     download_url: $('.showDown script').html(),

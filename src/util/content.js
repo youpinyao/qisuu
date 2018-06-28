@@ -32,7 +32,7 @@ module.exports = async function (page) {
   })
 
   for(let content of contents) {
-    const detail = await getDetail(content.page_url)
+    const detail = await getDetail(content)
     details.push(detail)
   }
 
