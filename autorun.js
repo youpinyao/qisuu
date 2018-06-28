@@ -35,18 +35,18 @@ async function run() {
   spawn.sync('npm', ['run', 'download'], options);
   spawn.sync('npm', ['run', 'rss'], options);
 
-  if (fs.existsSync(foreverLogPath)) {
-    fs.unlinkSync(foreverLogPath);
-    fs.writeFileSync(foreverLogPath, '');
-  }
-  if (fs.existsSync(outLogPath)) {
-    fs.unlinkSync(outLogPath);
-    fs.writeFileSync(outLogPath, '');
-  }
-  if (fs.existsSync(errLogPath)) {
-    fs.unlinkSync(errLogPath);
-    fs.writeFileSync(errLogPath, '');
-  }
+  // if (fs.existsSync(foreverLogPath)) {
+  //   fs.unlinkSync(foreverLogPath);
+  //   fs.writeFileSync(foreverLogPath, '');
+  // }
+  // if (fs.existsSync(outLogPath)) {
+  //   fs.unlinkSync(outLogPath);
+  //   fs.writeFileSync(outLogPath, '');
+  // }
+  // if (fs.existsSync(errLogPath)) {
+  //   fs.unlinkSync(errLogPath);
+  //   fs.writeFileSync(errLogPath, '');
+  // }
 
   isRuning = false;
 }
