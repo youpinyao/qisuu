@@ -1,6 +1,6 @@
 {
   "name": "qisuu",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "pull www.qisuu.la",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,6 @@
     "search": "node index.js search",
     "rss": "node index.js rss",
     "serve:dev": "nodemon -w server server/index.js",
-
     "autorun": "rm -rf /root/.forever/forever.log && rm -rf out.log && rm -rf err.log && forever -a -l forever.log -o out.log -e err.log start autorun.js",
     "autorun:stop": "forever stop autorun.js",
     "serve": "rm -rf /root/.forever/forever-serve.log && rm -rf out-serve.log && rm -rf err-serve.log && forever -a -l forever-serve.log -o out-serve.log -e err-serve.log start server/index.js",
@@ -47,6 +46,7 @@
     "nodemailer": "^4.6.7",
     "nodemon": "^1.17.5",
     "progress": "^2.0.0",
+    "prompt-input": "^3.0.0",
     "prompt-list": "^3.2.0",
     "query-string": "^6.1.0",
     "request": "^2.87.0",
