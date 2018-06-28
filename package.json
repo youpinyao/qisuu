@@ -13,7 +13,9 @@
     "autorun": "rm -rf out.log && rm -rf err.log && forever -a -l forever.log -o out.log -e err.log start autorun.js",
     "autorun:stop": "forever -a -l forever.log -o out.log -e err.log stop autorun.js",
     "rss": "node index.js rss",
-    "serve": "nodemon -w server server/index.js"
+    "serve:dev": "nodemon -w server server/index.js",
+    "serve": "forever start server/index.js",
+    "serve:stop": "forever stop server/index.js"
   },
   "bin": {
     "qisuu": "./index.js"
