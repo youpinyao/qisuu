@@ -8,6 +8,9 @@ require('./src/util/check-dir');
 
 const {
   dateCachePath,
+  foreverLogPath,
+  outLogPath,
+  errLogPath,
 } = require('./src/config');
 
 const format = 'YYYY-MM-DD';
@@ -31,6 +34,19 @@ async function run() {
   spawn.sync('npm', ['run', 'pick'], options);
   spawn.sync('npm', ['run', 'download'], options);
   spawn.sync('npm', ['run', 'rss'], options);
+
+  if (fs.existsSync(foreverLogPath)) {
+    fs.unlinkSync(foreverLogPath);
+    fs.writeFileSync(foreverLogPath, '');
+  }
+  if (fs.existsSync(outLogPath)) {
+    fs.unlinkSync(outLogPath);
+    fs.writeFileSync(outLogPath, '');
+  }
+  if (fs.existsSync(errLogPath)) {
+    fs.unlinkSync(errLogPath);
+    fs.writeFileSync(errLogPath, '');
+  }
 
   isRuning = false;
 }

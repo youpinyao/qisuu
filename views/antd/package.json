@@ -1,0 +1,44 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "nodemon --watch ywebpack.config.js node_modules/ywebpack start ./ywebpack.config.js",
+    "build": "ywebpack build ./ywebpack.config.js",
+    "access": "meetyou-ali-oss access"
+  },
+  "engines": {
+    "install-node": "6.11.1"
+  },
+  "dependencies": {
+    "antd": "^3.0.0",
+    "dva": "^2.1.0",
+    "dva-loading": "^1.0.4",
+    "jquery": "^1.12.4",
+    "js-cookie": "^2.2.0",
+    "lodash": "^4.17.4",
+    "meetyou-antd-base": "^0.0.41",
+    "mockjs": "^1.0.1-beta3",
+    "moment": "^2.19.2",
+    "query-string": "^5.0.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.0.2",
+    "babel-plugin-dva-hmr": "^0.3.2",
+    "babel-plugin-import": "^1.6.3",
+    "babel-polyfill": "^6.26.0",
+    "cross-env": "^5.1.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.8.0",
+    "expect": "^1.20.2",
+    "husky": "^0.12.0",
+    "less-vars-to-js": "^1.2.1",
+    "meetyou-ali-oss": "^1.0.6",
+    "nodemon": "^1.12.1",
+    "redbox-react": "^1.4.3",
+    "ywebpack": "^0.0.55"
+  }
+}

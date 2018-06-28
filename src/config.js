@@ -12,4 +12,7 @@ module.exports = {
   failPath: path.resolve(__dirname, '../fail'),
   cachePath: path.resolve(__dirname, '../cache'),
   dateCachePath: path.resolve(__dirname, '../json/data-cache.json'),
+  foreverLogPath: path.resolve(__dirname, '../forever.log'),
+  outLogPath: path.resolve(__dirname, '../out.log'),
+  errLogPath: path.resolve(__dirname, '../err.log'),
 }

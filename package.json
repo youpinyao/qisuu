@@ -12,7 +12,8 @@
     "search": "node index.js search",
     "autorun": "rm -rf out.log && rm -rf err.log && forever -a -l forever.log -o out.log -e err.log start autorun.js",
     "autorun:stop": "forever -a -l forever.log -o out.log -e err.log stop autorun.js",
-    "rss": "node index.js rss"
+    "rss": "node index.js rss",
+    "serve": "nodemon -w server server/index.js"
   },
   "bin": {
     "qisuu": "./index.js"
@@ -29,13 +30,19 @@
   "homepage": "https://github.com/youpinyao/qisuu#readme",
   "dependencies": {
     "art-template": "^4.12.2",
+    "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
     "cheerio": "^1.0.0-rc.2",
     "commander": "^2.15.1",
     "cross-spawn": "^6.0.5",
+    "express": "^4.16.3",
+    "express-art-template": "^1.0.1",
     "forever": "^0.15.3",
     "he": "^1.1.1",
     "moment": "^2.22.2",
+    "morgan": "^1.9.0",
+    "nodemailer": "^4.6.7",
+    "nodemon": "^1.17.5",
     "progress": "^2.0.0",
     "prompt-list": "^3.2.0",
     "query-string": "^6.1.0",
