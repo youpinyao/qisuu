@@ -14,6 +14,7 @@ module.exports = async function(content) {
   const detail = {
     title: ($('.detail_right h1').text() || '').replace(/\//g, '|').trim(),
     author: ($('.detail_right ul li').eq(5).text().split('：')[1] || '').replace(/\//g, '|').trim(),
+    cover: `${config.origin}${$('.detail .detail_pic img').attr('src')}`,
     size: ($('.detail_right ul li').eq(1).text().split('：')[1] || '').trim(),
     date: ($('.detail_right ul li').eq(3).text().split('：')[1] || '').trim(),
     page_url: content.page_url,

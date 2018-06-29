@@ -4,7 +4,6 @@ const chalk = require('chalk');
 const cheerio = require('cheerio');
 const path = require('path');
 const request = require('../util/request');
-const epub = require('../util/epub');
 
 const {
   listPath,
@@ -29,10 +28,15 @@ module.exports = async function(singleContent, singleDownloadPath) {
       fs.mkdirSync(novelPath);
     }
 
+    // 封面图
+    if (content.cover) {
+      request(content.cover).pipe(path.resolve(novelPath, `cover.${content.cover.split('.')[content.cover.split('.').length - 1]}`));
+    }
+
     for(let [chapter, index] of content.chapters) {
       const html = await request(chapter);
       const $ = cheerio.load(html);
-      const chapterTitle = $('.txt_cont > h1').text().trim();
+      const chapterTitle = $('.txt_cont > h1').text().trim().replace(/\//g, '|');
       const chapterPath = path.resolve(novelPath, `${index + 1}-${chapterTitle}.txt`);
       const chapterContent = $('#content1').text();
 
@@ -40,8 +44,6 @@ module.exports = async function(singleContent, singleDownloadPath) {
       fs.writeFileSync(chapterPath, `${chapterTitle} \n ${chapterContent.replace(/ /g, '').replace(/\n\n/g, '\n')}`);
       console.log(chalk.green(`download ${chapterPath} completed`));
     }
-
-    epub(content, novelPath);
   }
   console.log('====================================')
   console.log('all downloads completed')
