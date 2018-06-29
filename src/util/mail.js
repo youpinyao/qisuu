@@ -1,4 +1,10 @@
 const nodemailer = require('nodemailer');
+const cliSpinners = require('cli-spinners');
+const ora = require('ora');
+const loading = ora({
+  spinner: cliSpinners.dost
+});
+
 
 const user = '497400448@qq.com';
 const password = 'herutnlsqumvbiec';
@@ -32,10 +38,14 @@ function sendTo(params) {
       }],
     };
 
+    loading.start('邮件发送中');
+
     // send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {
+      loading.stop();
       if (error) {
         reject(error);
+        process.exit();
         return console.log(error);
       }
       console.log('Message sent: %s', info.messageId);

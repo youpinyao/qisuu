@@ -13,8 +13,8 @@ require('./src/util/check-dir');
 
 commander
   .version(require('./package.json').version)
-  .arguments('<cmd> [params1] [params2]')
-  .action((cmd, params1, params2) => {
+  .arguments('<cmd> [params1]')
+  .action((cmd, params1) => {
     switch (cmd) {
       case 'pick':
         doPick()
@@ -26,7 +26,7 @@ commander
         doClearCache();
         break;
       case 'search':
-        doSearch(params1, params2);
+        doSearch(params1);
         break;
       case 'rss':
         generateRss();

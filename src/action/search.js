@@ -21,7 +21,7 @@ const params = {
 }
 
 // eslint-disable-next-line
-module.exports = async function (searchKey, downloadTo) {
+module.exports = async function (searchKey) {
   if (!searchKey) {
     console.log();
     console.log(chalk.red('请输入搜索关键字'));
@@ -60,14 +60,7 @@ module.exports = async function (searchKey, downloadTo) {
     console.log(chalk.red('搜索结果为空'));
     return;
   }
-
-  const line = {
-    name: '============我是分割线==============',
-    disabled: true,
-  };
   const choices = data.map(item => item.text);
-
-  choices.push(line);
 
   const list = new List({
     name: '选择',
@@ -80,28 +73,55 @@ module.exports = async function (searchKey, downloadTo) {
 
   const detail = await getDetail(data.filter(item => item.text === answer)[0]);
 
-  // download(detail, path.resolve(process.cwd(), downloadTo || ''))
+  const downloadMethodChoices = [
+    '下载到本地',
+    '发送到kindle'
+  ];
+  const downloadMethodList = new List({
+    name: '选择',
+    message: '选择其中一个下载方式',
+    // choices may be defined as an array or a function that returns an array
+    choices: downloadMethodChoices,
+  });
 
-  const input = new Input({
-    name: 'kindle',
-    message: 'please kindle mail address'
-  });
-  input.ask(function (answers) {
-    console.log(answers);
-    const params = {
-      ...detail,
-      chapters: undefined,
-      mail: answers,
-    };
-    if (!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(params.mail)) {
-      console.log(chalk.red('请输入正确邮箱地址'));
-      return;
-    }
-    console.log('发送中');
-    mail.sendTo(params).then(() => {
-      console.log(`发送成功 ${answer} ${JSON.stringify(params)}`);
-    }, () => {
-      console.log(`发送失败 ${answer}  ${JSON.stringify(params)}`);
+  const downloadMethodAnswer = await downloadMethodList.run();
+
+  let input = null;
+
+  if (/kindle/g.test(downloadMethodAnswer)) {
+    input = new Input({
+      name: 'kindle',
+      message: '请输入kindle邮箱地址'
     });
-  });
+    execKindleAsk();
+  } else {
+    input = new Input({
+      name: '下载目标路径',
+      message: '请输入下载目标路径（默认当前cwd目录）'
+    });
+
+    input.ask(function (answers) {
+      download(detail, path.resolve(process.cwd(), answers || ''))
+    });
+  }
+
+  function execKindleAsk() {
+    input.ask(function (answers) {
+      const params = {
+        ...detail,
+        chapters: undefined,
+        mail: answers,
+      };
+      if (!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(params.mail)) {
+        console.log(chalk.red('请输入正确邮箱地址'));
+        execKindleAsk();
+        return;
+      }
+      mail.sendTo(params).then(() => {
+        console.log(`发送成功 ${answer} ${JSON.stringify(params)}`);
+      }, () => {
+        console.log(`发送失败 ${answer}  ${JSON.stringify(params)}`);
+      });
+    });
+  }
 }
