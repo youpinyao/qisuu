@@ -2,6 +2,8 @@
 const fs = require('fs');
 const chalk = require('chalk');
 const cheerio = require('cheerio');
+const nativeRequest = require('request')
+const progress = require('request-progress')
 const path = require('path');
 const request = require('../util/request');
 
@@ -30,7 +32,8 @@ module.exports = async function(singleContent, singleDownloadPath) {
 
     // 封面图
     if (content.cover) {
-      request(content.cover).pipe(path.resolve(novelPath, `cover.${content.cover.split('.')[content.cover.split('.').length - 1]}`));
+      console.log('cover', content.cover);
+      progress(nativeRequest(content.cover)).pipe(fs.createWriteStream(path.resolve(novelPath, `cover.${content.cover.split('.')[content.cover.split('.').length - 1]}`)));
     }
 
     for(let [chapter, index] of content.chapters) {
