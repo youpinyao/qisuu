@@ -12,7 +12,8 @@ export default ({
   loading,
   push_mail,
   updatePushMail,
-  onConfirmPushMail,
+  onConfirmPushMailTxt,
+  onConfirmPushMailMobi,
   setCurrentRow,
 }) => {
   return [{
@@ -55,15 +56,29 @@ export default ({
     title: '操作',
     render(record) {
       return (
-        <div>
+        <div
+          style={{
+            whiteSpace: 'nowrap',
+          }}
+        >
           <Popconfirm
             overlayClassName={styles.popConfirm}
             title={(
               <Input placeholder="请输入 kindle 邮箱地址" onChange={updatePushMail} value={push_mail} />
             )}
-            onConfirm={onConfirmPushMail}
+            onConfirm={onConfirmPushMailTxt}
           >
-            <Button loading={loading.effects['home/pushToKindle']} onClick={() => setCurrentRow(record)}>推送到kindle</Button>
+            <Button loading={loading.effects['home/pushToKindleTxt']} onClick={() => setCurrentRow(record)}>推送txt到kindle</Button>
+          </Popconfirm>
+
+          <Popconfirm
+            overlayClassName={styles.popConfirm}
+            title={(
+              <Input placeholder="请输入 kindle 邮箱地址" onChange={updatePushMail} value={push_mail} />
+            )}
+            onConfirm={onConfirmPushMailMobi}
+          >
+            <Button className="ml-10" loading={loading.effects['home/pushToKindleMobi']} onClick={() => setCurrentRow(record)}>推送mobi到kindle</Button>
           </Popconfirm>
         </div>
       );

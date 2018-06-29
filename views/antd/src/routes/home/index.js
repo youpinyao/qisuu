@@ -69,13 +69,23 @@ class Home extends React.Component {
         },
       });
     };
-    const onConfirmPushMail = () => {
+    const onConfirmPushMailTxt = () => {
       if (!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(push_mail)) {
         message.error('请输入正确邮箱地址');
         return false;
       }
       dispatch({
-        type: 'home/pushToKindle',
+        type: 'home/pushToKindleTxt',
+      });
+    };
+
+    const onConfirmPushMailMobi = () => {
+      if (!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(push_mail)) {
+        message.error('请输入正确邮箱地址');
+        return false;
+      }
+      dispatch({
+        type: 'home/pushToKindleMobi',
       });
     };
     return (
@@ -93,7 +103,8 @@ class Home extends React.Component {
               loading,
               push_mail,
               updatePushMail,
-              onConfirmPushMail,
+              onConfirmPushMailTxt,
+              onConfirmPushMailMobi,
               setCurrentRow,
             })}
             onChange={onChange}

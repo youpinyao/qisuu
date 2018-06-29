@@ -10,8 +10,8 @@ export default {
   state: {
     tableData: [],
     searchKey: '',
-    push_mail: '',
-    // push_mail: '8618650808852@kindle.cn',
+    // push_mail: '',
+    push_mail: '8618650808852@kindle.cn',
     // push_mail: '497400448@qq.com',
     current_row: null,
     pagination: {
@@ -55,17 +55,29 @@ export default {
         },
       });
     },
-    *pushToKindle({ payload }, { call, select }) {
+    *pushToKindleTxt({ payload }, { call, select }) {
       const {
         current_row,
         push_mail,
       } = yield select(({ home }) => home);
-      yield call(request.post, urls.pushToKindle, {
+      yield call(request.post, urls.pushToKindleTxt, {
         ...current_row,
         mail: push_mail,
       });
 
-      yield message.success(`推送至 ${push_mail} 成功`);
+      yield message.success(`推送${current_row.title} txt至 ${push_mail} 成功`);
+    },
+    *pushToKindleMobi({ payload }, { call, select }) {
+      const {
+        current_row,
+        push_mail,
+      } = yield select(({ home }) => home);
+      yield call(request.post, urls.pushToKindleMobi, {
+        ...current_row,
+        mail: push_mail,
+      });
+
+      yield message.success(`推送${current_row.title} mobi至 ${push_mail} 成功`);
     },
   },
   reducers: {

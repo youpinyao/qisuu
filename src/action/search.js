@@ -117,6 +117,7 @@ module.exports = async function (searchKey) {
         ...detail,
         chapters: undefined,
         mail: answers,
+        convert: true,
       };
       if (!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(params.mail)) {
         console.log(chalk.red('请输入正确邮箱地址'));

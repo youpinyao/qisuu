@@ -29,7 +29,8 @@ app.get('/', function (req, res) {
   res.render('index.art');
 });
 app.get('/list', require('./get/list.js'));
-app.post('/push/to/kindle', require('./post/push-to-kindle.js'));
+app.post('/push/to/kindle/txt', require('./post/push-to-kindle-txt.js'));
+app.post('/push/to/kindle/mobi', require('./post/push-to-kindle-mobi.js'));
 
 var server = app.listen(3000, function () {
   var host = server.address().address;

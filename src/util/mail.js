@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const chalk = require('chalk');
 const cliSpinners = require('cli-spinners');
 const ora = require('ora');
 const loading = ora({
@@ -29,8 +30,8 @@ function sendTo(params) {
     let mailOptions = {
       from: `"qissu robot" <${user}>`, // sender address
       to: params.mail, // list of receivers
-      subject: `${params.title} ${params.author}`, // Subject line
-      text: `${params.title} ${params.author}`, // plain text body
+      subject: `${params.title}-${params.author}${params.convert ? ' convert' : ''}`, // Subject line
+      text: `${params.title}-${params.author}`, // plain text body
       html: `<b>${JSON.stringify(params)}</b>`, // html body
       attachments: [{
         filename: params.filename,
@@ -46,7 +47,7 @@ function sendTo(params) {
       if (error) {
         reject(error);
         process.exit();
-        return console.log(error);
+        return console.log(chalk.red(error));
       }
       console.log('Message sent: %s', info.messageId);
       // Preview only available when sending through an Ethereal account

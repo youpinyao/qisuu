@@ -1,3 +1,4 @@
 
 export const list = '/list';
-export const pushToKindle = '/push/to/kindle';
+export const pushToKindleTxt = '/push/to/kindle/txt';
+export const pushToKindleMobi = '/push/to/kindle/mobi';

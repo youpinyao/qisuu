@@ -42,7 +42,7 @@
     "express-art-template": "^1.0.1",
     "forever": "^0.15.3",
     "he": "^1.1.1",
-    "kindle-periodical-cn": "^1.6.6",
+    "kindle-periodical-cn": "^1.6.7",
     "moment": "^2.22.2",
     "morgan": "^1.9.0",
     "nodemailer": "^4.6.7",

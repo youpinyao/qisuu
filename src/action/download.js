@@ -1,4 +1,3 @@
-
 const fs = require('fs');
 const chalk = require('chalk');
 const cheerio = require('cheerio');
@@ -13,7 +12,7 @@ const {
   downloadPath,
 } = require('../config');
 
-module.exports = async function(singleContent, singleDownloadPath) {
+module.exports = async function (singleContent, singleDownloadPath) {
   if (!singleContent && !fs.existsSync(listPath)) {
     console.log('====================================')
     console.log(chalk.red('请先抓取列表 npm run pick'))
@@ -33,11 +32,11 @@ module.exports = async function(singleContent, singleDownloadPath) {
 
     // 封面图
     if (content.cover) {
-      console.log('cover', content.cover);
-      progress(nativeRequest(content.cover)).pipe(fs.createWriteStream(path.resolve(novelPath, `cover.${content.cover.split('.')[content.cover.split('.').length - 1]}`)));
+      console.log('download cover', content.cover);
+      await downloadCover(content, novelPath);
     }
 
-    for(let [chapter, index] of content.chapters) {
+    for (let [chapter, index] of content.chapters) {
       const html = await request(chapter);
       const $ = cheerio.load(html);
       const chapterTitle = $('.txt_cont > h1').text().trim().replace(/\//g, '|');
@@ -45,7 +44,7 @@ module.exports = async function(singleContent, singleDownloadPath) {
       const chapterContent = $('#content1').text();
 
       // eslint-disable-next-line
-      fs.writeFileSync(chapterPath, `${chapterTitle} \n ${chapterContent.replace(/ /g, '').replace(/\n\n/g, '\n')}`);
+      fs.writeFileSync(chapterPath, `${chapterTitle} \n ${chapterContent}`);
       console.log(chalk.green(`download ${chapterPath} completed`));
     }
 
@@ -54,4 +53,13 @@ module.exports = async function(singleContent, singleDownloadPath) {
   console.log('====================================')
   console.log('all downloads completed')
   console.log('====================================')
+}
+
+function downloadCover(content, novelPath) {
+  return new Promise((resolve) => {
+    progress(nativeRequest(content.cover))
+      .on('error', resolve)
+      .on('end', resolve)
+      .pipe(fs.createWriteStream(path.resolve(novelPath, `cover.${content.cover.split('.')[content.cover.split('.').length - 1]}`)));
+  })
 }

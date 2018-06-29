@@ -7,10 +7,13 @@ module.exports = (req, res) => {
     str += chunk;
   });
   req.on('end', () => {
-    mail.sendTo(JSON.parse(str)).then(() => {
+    mail.sendTo({
+      ...JSON.parse(str),
+      convert: true,
+    }).then(() => {
       res.send('[]');
     }, (data) => {
-      res.send(400, JSON.stringify({
+      res.status(400).send(JSON.stringify({
         message: JSON.stringify(data),
       }));
     });
