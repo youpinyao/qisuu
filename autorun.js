@@ -8,9 +8,9 @@ require('./src/util/check-dir');
 
 const {
   dateCachePath,
-  foreverLogPath,
-  outLogPath,
-  errLogPath,
+  // foreverLogPath,
+  // outLogPath,
+  // errLogPath,
 } = require('./src/config');
 
 const format = 'YYYY-MM-DD';
