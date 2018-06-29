@@ -6,6 +6,7 @@ const path = require('path');
 const request = require('../util/request');
 const config = require('../config');
 const getDetail = require('../util/detail');
+const chaptersDownload = require('../action/download');
 const download = require('../util/download');
 
 const mail = require('../util/mail');
@@ -74,7 +75,8 @@ module.exports = async function (searchKey) {
   const detail = await getDetail(data.filter(item => item.text === answer)[0]);
 
   const downloadMethodChoices = [
-    '下载到本地',
+    '下载到本地（txt）',
+    '下载到本地（分章节）',
     '发送到kindle'
   ];
   const downloadMethodList = new List({
@@ -101,7 +103,11 @@ module.exports = async function (searchKey) {
     });
 
     input.ask(function (answers) {
-      download(detail, path.resolve(process.cwd(), answers || ''))
+      if (/章节/g.test(downloadMethodAnswer)) {
+        chaptersDownload([detail], path.resolve(process.cwd(), answers || ''));
+      } else {
+        download(detail, path.resolve(process.cwd(), answers || ''))
+      }
     });
   }
 

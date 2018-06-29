@@ -1,7 +1,6 @@
 
 const fs = require('fs');
 const chalk = require('chalk');
-const he = require('he');
 const cheerio = require('cheerio');
 const path = require('path');
 const request = require('../util/request');
@@ -11,7 +10,7 @@ const {
   downloadPath,
 } = require('../config');
 
-module.exports = async function() {
+module.exports = async function(singleContent, singleDownloadPath) {
   if (!fs.existsSync(listPath)) {
     console.log('====================================')
     console.log(chalk.red('请先抓取列表 npm run pick'))
@@ -19,11 +18,15 @@ module.exports = async function() {
     return
   }
 
-  const contents = JSON.parse(fs.readFileSync(listPath))
+  const contents = singleContent || JSON.parse(fs.readFileSync(listPath))
   for (let content of contents) {
-    const novelPath = path.resolve(downloadPath, `${content.title}-${content.author}`);
+    const novelPath = path.resolve(singleDownloadPath || downloadPath, `${content.title}-${content.author}`);
 
     content.chapters = content.chapters.map((c, i) => [c, i]);
+
+    if (!fs.existsSync(novelPath)) {
+      fs.mkdirSync(novelPath);
+    }
 
     for(let [chapter, index] of content.chapters) {
       const html = await request(chapter);
@@ -31,10 +34,6 @@ module.exports = async function() {
       const chapterTitle = $('.txt_cont > h1').text().trim();
       const chapterPath = path.resolve(novelPath, `${index + 1}-${chapterTitle}.txt`);
       const chapterContent = $('#content1').text();
-
-      if (!fs.existsSync(novelPath)) {
-        fs.mkdirSync(novelPath);
-      }
 
       // eslint-disable-next-line
       fs.writeFileSync(chapterPath, `${chapterTitle} \n ${chapterContent.replace(/ /g, '').replace(/\n\n/g, '\n')}`);
