@@ -25,7 +25,7 @@ commander
       case 'clear-cache':
         doClearCache();
         break;
-      case 'clear-cache-force':
+      case 'clear-cache-all':
         doClearCache(true);
         break;
       case 'search':
