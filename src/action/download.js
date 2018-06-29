@@ -4,6 +4,7 @@ const chalk = require('chalk');
 const cheerio = require('cheerio');
 const path = require('path');
 const request = require('../util/request');
+const epub = require('../util/epub');
 
 const {
   listPath,
@@ -39,6 +40,8 @@ module.exports = async function(singleContent, singleDownloadPath) {
       fs.writeFileSync(chapterPath, `${chapterTitle} \n ${chapterContent.replace(/ /g, '').replace(/\n\n/g, '\n')}`);
       console.log(chalk.green(`download ${chapterPath} completed`));
     }
+
+    epub(content, novelPath);
   }
   console.log('====================================')
   console.log('all downloads completed')
