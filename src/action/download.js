@@ -11,7 +11,7 @@ const {
 } = require('../config');
 
 module.exports = async function(singleContent, singleDownloadPath) {
-  if (!fs.existsSync(listPath)) {
+  if (!singleContent && !fs.existsSync(listPath)) {
     console.log('====================================')
     console.log(chalk.red('请先抓取列表 npm run pick'))
     console.log('====================================')
