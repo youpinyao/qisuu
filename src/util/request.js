@@ -22,13 +22,13 @@ function doRequest(retry, oldResolve, ...args) {
   return new Promise((resolve) => {
     if (fs.existsSync(cachePath)) {
       resolve(fs.readFileSync(cachePath))
-      console.log(chalk.yellow('from cache', args[0]))
+      console.log(chalk.green('from cache', args[0]))
       return
     }
     request(...args).then((res) => {
       resolve(res)
       oldResolve && oldResolve(res);
-      fs.writeFile(cachePath, res)
+      fs.writeFile(cachePath, res, () => console.log(chalk.yellow(`cached ${args[0]}`)));
     }, (res) => {
       if (retry) {
         console.log('====================================')
@@ -36,7 +36,7 @@ function doRequest(retry, oldResolve, ...args) {
         console.log('====================================')
         return doRequest(--retry, oldResolve || resolve, ...args)
       } else {
-        fs.writeFile(`${failPath}/${args[0].replace(/\//g, '$')}`, res)
+        fs.writeFile(`${failPath}/${args[0].replace(/\//g, '$')}`, res, () => console.log(chalk.red(`fail ${args[0]}`)));
         resolve('')
         oldResolve && oldResolve('');
       }
