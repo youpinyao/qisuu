@@ -28,7 +28,7 @@ function doRequest(retry, oldResolve, ...args) {
     request(...args).then((res) => {
       resolve(res)
       oldResolve && oldResolve(res);
-      fs.writeFileSync(cachePath, res)
+      fs.writeFile(cachePath, res)
     }, (res) => {
       if (retry) {
         console.log('====================================')
@@ -36,7 +36,7 @@ function doRequest(retry, oldResolve, ...args) {
         console.log('====================================')
         return doRequest(--retry, oldResolve || resolve, ...args)
       } else {
-        fs.writeFileSync(`${failPath}/${args[0].replace(/\//g, '$')}`, res)
+        fs.writeFile(`${failPath}/${args[0].replace(/\//g, '$')}`, res)
         resolve('')
         oldResolve && oldResolve('');
       }
