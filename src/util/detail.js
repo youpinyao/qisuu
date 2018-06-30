@@ -1,11 +1,10 @@
-
 const request = require('./request')
 const cheerio = require('cheerio')
 
 const config = require('../config');
 const sleep = require('../util/sleep');
 
-module.exports = async function(content) {
+module.exports = async function (content) {
   console.log('====================================')
   console.log('geting detail', content.page_url)
   // console.log('====================================');
@@ -24,6 +23,16 @@ module.exports = async function(content) {
     chapters: [],
     download_url: $('.showDown script').html(),
     filename: '',
+  }
+
+  if (detail.chapter) {
+    const chapterHtml = await request(detail.chapter, detail.date);
+    const $c = cheerio.load(chapterHtml);
+    const chapters = $c('#info').last().find('.pc_list ul li a');
+
+    detail.chapters = Array.prototype.map.call(chapters, (item) => {
+      return `${detail.chapter}${$c(item).attr('href')}`;
+    });
   }
 
   if (detail.download_url) {
