@@ -5,7 +5,7 @@ const nativeRequest = require('request')
 const progress = require('request-progress')
 const path = require('path');
 const request = require('../util/request');
-const mobi = require('../util/mobi');
+// const mobi = require('../util/mobi');
 
 const {
   listPath,
@@ -48,7 +48,7 @@ module.exports = async function (singleContent, singleDownloadPath) {
       console.log(chalk.green(`download ${chapterPath} completed`));
     }
 
-    await mobi(content, novelPath);
+    // await mobi(content, novelPath);
   }
   console.log('====================================')
   console.log('all downloads completed')
