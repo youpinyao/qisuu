@@ -6,7 +6,6 @@ const doPick = require('./src/action/pick');
 const doDownload = require('./src/action/download');
 const doClearCache = require('./src/action/clear-cache');
 const doSearch = require('./src/action/search');
-const generateRss = require('./src/action/rss');
 
 // 检查文件夹
 require('./src/util/check-dir');
@@ -30,9 +29,6 @@ commander
         break;
       case 'search':
         doSearch(params1);
-        break;
-      case 'rss':
-        generateRss();
         break;
     }
   })

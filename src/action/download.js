@@ -6,25 +6,40 @@ const progress = require('request-progress')
 const path = require('path');
 const request = require('../util/request');
 const file = require('../util/file');
+const list = require('../util/list')
 const sleep = require('../util/sleep');
 // const mobi = require('../util/mobi');
 
 const {
-  listPath,
   downloadPath,
 } = require('../config');
 
-module.exports = async function (singleContent, singleDownloadPath) {
-  if (!singleContent && !fs.existsSync(listPath)) {
+module.exports = async function (specifiedContent, specifiedDownloadPath) {
+  const lists = await list.get();
+  if (!specifiedContent && !lists.length) {
     console.log('====================================')
     console.log(chalk.red('请先抓取列表 npm run pick'))
     console.log('====================================')
     return
   }
 
-  const contents = singleContent || JSON.parse(await file.read(listPath))
+  if (!specifiedContent) {
+    for (let list of lists) {
+      const contents = JSON.parse(await file.read(list));
+      await doDownload(contents, downloadPath);
+    }
+  } else {
+    await doDownload(specifiedContent, specifiedDownloadPath);
+  }
+
+  console.log('====================================')
+  console.log('all downloads completed')
+  console.log('====================================')
+}
+
+async function doDownload(contents, downloadPath) {
   for (let content of contents) {
-    const novelPath = path.resolve(singleDownloadPath || downloadPath, `${content.title}-${content.author}`);
+    const novelPath = path.resolve(downloadPath, `${content.title}-${content.author}`);
 
     content.chapters = content.chapters.map((c, i) => [c, i]);
 
@@ -54,9 +69,6 @@ module.exports = async function (singleContent, singleDownloadPath) {
 
     // await mobi(content, novelPath);
   }
-  console.log('====================================')
-  console.log('all downloads completed')
-  console.log('====================================')
 }
 
 function downloadCover(content, novelPath) {

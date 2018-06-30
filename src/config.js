@@ -5,7 +5,6 @@ module.exports = {
   pagesUrl: 'https://www.qisuu.la/s/new/',
   searchUrl: 'http://zhannei.baidu.com/cse/site/',
   listPath: path.resolve(__dirname, '../json/list.json'),
-  rssPath: path.resolve(__dirname, '../json/rss.xml'),
   jsonPath:  path.resolve(__dirname, '../json'),
   downloadPath: path.resolve(__dirname, '../download'),
   downloadingPath: path.resolve(__dirname, '../downloading'),

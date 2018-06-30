@@ -6,6 +6,7 @@ const {
   jsonPath,
   failPath,
   cachePath,
+  listPath,
 } = require('../config');
 
 if (!fs.existsSync(downloadPath)) {
@@ -26,4 +27,7 @@ if (!fs.existsSync(failPath)) {
 
 if (!fs.existsSync(cachePath)) {
   fs.mkdirSync(cachePath)
+}
+if (!fs.existsSync(listPath)) {
+  fs.writeFileSync(listPath, '[]');
 }
