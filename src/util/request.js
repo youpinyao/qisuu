@@ -22,10 +22,18 @@ function doRequest(retry, oldResolve, ...args) {
   return new Promise((resolve) => {
     fs.exists(cachePath, exists => {
       if (exists) {
-        fs.readFile(cachePath, (err, data) => {
-          resolve(data);
+        let chunks = '';
+        const readable = fs.createReadStream(cachePath, {
+          autoClose: true,
+        });
+        readable.on('data', function(chunk){
+          chunks += chunk;
+        });
+
+        readable.on('end', function(){
+          resolve(chunks);
           console.log(chalk.green('from cache', args[0]));
-        })
+        });
         return
       }
       request(...args).then((res) => {
