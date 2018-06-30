@@ -5,6 +5,7 @@ const nativeRequest = require('request')
 const progress = require('request-progress')
 const path = require('path');
 const request = require('../util/request');
+const file = require('../util/file');
 // const mobi = require('../util/mobi');
 
 const {
@@ -20,7 +21,7 @@ module.exports = async function (singleContent, singleDownloadPath) {
     return
   }
 
-  const contents = singleContent || JSON.parse(fs.readFileSync(listPath))
+  const contents = singleContent || JSON.parse(await file.read(listPath))
   for (let content of contents) {
     const novelPath = path.resolve(singleDownloadPath || downloadPath, `${content.title}-${content.author}`);
 

@@ -1,6 +1,7 @@
 const request = require('request-promise')
 const fs = require('fs')
 const chalk = require('chalk')
+const file = require('../util/file');
 
 const {
   failPath,
@@ -20,26 +21,15 @@ function doRequest(retry, oldResolve, ...args) {
   }
 
   return new Promise((resolve) => {
-    fs.exists(cachePath, exists => {
+    fs.exists(cachePath, async (exists) => {
       if (exists) {
-        let chunks = '';
-        const readable = fs.createReadStream(cachePath, {
-          autoClose: true,
-        });
-        readable.on('data', function(chunk){
-          chunks += chunk;
-        });
-
-        readable.on('end', function(){
-          resolve(chunks);
-          console.log(chalk.green('from cache', args[0]));
-        });
+        resolve(await file.read(cachePath));
         return
       }
       request(...args).then((res) => {
         resolve(res)
         oldResolve && oldResolve(res);
-        fs.writeFile(cachePath, res, () => console.log(chalk.yellow(`cached ${args[0]}`)));
+        file.write(cachePath, res).then(() => console.log(chalk.yellow(`cached ${args[0]}`)));
       }, (res) => {
         if (retry) {
           console.log('====================================')
@@ -47,9 +37,9 @@ function doRequest(retry, oldResolve, ...args) {
           console.log('====================================')
           return doRequest(--retry, oldResolve || resolve, ...args)
         } else {
-          fs.writeFile(`${failPath}/${args[0].replace(/\//g, '$')}`, res, () => console.log(chalk.red(`fail ${args[0]}`)));
-          resolve('')
-          oldResolve && oldResolve('');
+          file.write(`${failPath}/${args[0].replace(/\//g, '$')}`, res).then(() => console.log(chalk.red(`fail ${args[0]}`)));
+          resolve()
+          oldResolve && oldResolve();
         }
       })
     })

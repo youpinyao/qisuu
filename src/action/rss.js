@@ -1,7 +1,8 @@
-const fs = require('fs');
+// const fs = require('fs');
 const template = require('art-template');
 
 const config = require('../config');
+const file = require('../util/file');
 const rssTemplate = `
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <rss version="2.0">
@@ -15,8 +16,10 @@ const rssTemplate = `
 </rss>
 `;
 
-module.exports = function() {
-  fs.writeFileSync(config.rssPath, template.render(rssTemplate, {
-    list: JSON.parse(fs.readFileSync(config.listPath).toString()),
+module.exports = async function() {
+  const data = JSON.parse(await file.read(config.listPath));
+
+  file.write(config.rssPath, template.render(rssTemplate, {
+    list: data,
   }));
 }

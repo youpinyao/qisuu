@@ -3,6 +3,8 @@ const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs');
 
+const file = require('../util/file');
+
 // mobi({
 //   title: '《修真聊天群》全集',
 //   author: '圣骑士的传说',
@@ -13,13 +15,17 @@ async function mobi(detail, input) {
   return new Promise(async (resolve) => {
     console.log(chalk.green('generate mobi start'));
 
-    const articles = fs.readdirSync(input).filter(item => /\.txt/g.test(item)).sort((afile, bfile) => parseInt(afile.split('-')[0]) - parseInt(bfile.split('-')[0])).map(file => ({
-      title: file.split('.txt')[0],
+    const articles = fs.readdirSync(input).filter(item => /\.txt/g.test(item)).sort((afile, bfile) => parseInt(afile.split('-')[0]) - parseInt(bfile.split('-')[0])).map(item => ({
+      title: item.split('.txt')[0],
       author: detail.author,
-      content: fs.readFileSync(path.resolve(input, file)).toString().replace(/\n/g, '<br />'),
-      // file: path.resolve(input, file),
+      content: path.resolve(input, item),
+      // file: path.resolve(input, item),
       // url: path-to-local-file,
     }));
+
+    for (let i = 0; i < articles.length; i++) {
+      articles[i].content = (await file.read(articles[i].content)).toString().replace(/\n/g, '<br />');
+    }
 
     const sections = [];
     const split = 100;
