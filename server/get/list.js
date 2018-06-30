@@ -6,14 +6,16 @@ module.exports = (req, res) => {
     pageSize = 10,
   } = req.query;
 
-  const content = list.filter(item => (new RegExp(searchKey)).test(item.title) || (new RegExp(searchKey)).test(item.author)).splice((current - 1) * pageSize, pageSize).map(item => ({
+  const newList = list.filter(item => (new RegExp(searchKey)).test(item.title) || (new RegExp(searchKey)).test(item.author));
+
+  const content = newList.splice((current - 1) * pageSize, pageSize).map(item => ({
     ...item,
     chapters: undefined,
   }));
 
   const data = {
     content,
-    total: list.length
+    total: newList.length
   }
   res.send(data);
 }
