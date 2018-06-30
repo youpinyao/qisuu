@@ -10,17 +10,17 @@ const file = require('./file.js');
 module.exports = {
   async generate() {
     const files = fs.readdirSync(jsonPath);
-    const contents = [];
+    let contents = [];
 
     for (let item of files) {
       if (/^list-/g.test(item)) {
-        contents.concat(JSON.parse(await file.read(path.resolve(jsonPath, item))).map(item => ({
+        contents = contents.concat(JSON.parse(await file.read(path.resolve(jsonPath, item))).map(item => ({
           ...item,
           chapters: [],
         })));
       }
     }
-    file.write(listPath, JSON.stringify(contents));
+    await file.write(listPath, JSON.stringify(contents));
   },
   async get() {
     const files = fs.readdirSync(jsonPath);
