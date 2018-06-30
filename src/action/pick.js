@@ -1,5 +1,5 @@
 
-const fs = require('fs');
+const file = require('../util/file');
 const getPage = require('../util/page')
 const getContent = require('../util/content');
 
@@ -16,7 +16,7 @@ module.exports = async function() {
     contents = contents.concat(content)
   }
 
-  fs.writeFileSync(listPath, JSON.stringify(contents))
+  await file.write(listPath, JSON.stringify(contents))
 
   console.log('====================================')
   console.log('pick completed')

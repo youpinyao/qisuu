@@ -45,7 +45,7 @@ module.exports = async function (singleContent, singleDownloadPath) {
       const chapterContent = $('#content1').text();
 
       // eslint-disable-next-line
-      fs.writeFileSync(chapterPath, `${chapterTitle} \n ${chapterContent}`);
+      await file.write(chapterPath, `${chapterTitle} \n ${chapterContent}`);
       console.log(chalk.green(`download ${chapterPath} completed`));
     }
 

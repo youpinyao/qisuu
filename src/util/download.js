@@ -4,6 +4,8 @@ const chalk = require('chalk')
 const ProgressBar = require('progress')
 const progress = require('request-progress')
 
+const file = require('../util/file');
+
 const {
   downloadPath,
   downloadingPath,
@@ -27,7 +29,7 @@ module.exports = function (content, downloadToPath) {
 
   url = url.join('/')
 
-  return new Promise((resolve) => {
+  return new Promise(async (resolve) => {
     // 如果存在就不下载
     if (fs.existsSync(saveTo) && !fs.existsSync(downloadingTo)) {
       console.log('====================================')
@@ -39,7 +41,7 @@ module.exports = function (content, downloadToPath) {
 
     // 标记下载中
     if (!fs.existsSync(downloadingTo)) {
-      fs.writeFileSync(downloadingTo)
+      file.write(downloadingTo)
     } else {
       console.log('====================================')
       console.log(chalk.yellow(`删除未下载完成 重新下载 ${saveTo}`))
@@ -94,7 +96,7 @@ module.exports = function (content, downloadToPath) {
         console.log('====================================')
         console.log('download error', err)
         console.log('====================================')
-        fs.writeFileSync(`${failPath}/${content.download_url.replace(/\//g, '$')}`, content.download_url)
+        file.write(`${failPath}/${content.download_url.replace(/\//g, '$')}`, content.download_url)
         try {
           fs.unlinkSync(saveTo)
         } catch (error) {
