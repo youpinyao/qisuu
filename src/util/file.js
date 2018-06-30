@@ -1,16 +1,15 @@
 const fs = require('fs');
 
-let count = 0;
-
 module.exports = {
   read(path) {
-    count ++;
     return new Promise((resolve, reject) => {
       let chunks = '';
-      const fd = +(new Date()) + count;
+      let fd = null;
       const readable = fs.createReadStream(path, {
         autoClose: true,
-        fd,
+      });
+      readable.on('open',function(_fd) {
+        fd = _fd;
       });
       readable.on('data', function (chunk) {
         chunks += chunk;
@@ -28,22 +27,25 @@ module.exports = {
     });
   },
   write(path, content) {
-    count ++;
     return new Promise((resolve, reject) => {
-      const fd = +(new Date()) + count;
       const wstream = fs.createWriteStream(path, {
         autoClose: true,
-        fd,
       });
+      let fd = null;
 
-      wstream.on('open', () => {
+      wstream.on('open', (_fd) => {
+        fd = _fd;
         wstream.write(content);
         wstream.end();
       });
       wstream.on('error', reject);
       wstream.on('finish', () => {
-        fs.close(fd);
         resolve();
+        try {
+          fs.close(fd);
+        } catch (error) {
+          console.log('fs.close', error);
+        }
       });
     });
   }
