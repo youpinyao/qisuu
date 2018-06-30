@@ -18,7 +18,7 @@ module.exports = {
       readable.on('end', function () {
         resolve(chunks);
         try {
-          fs.close(fd);
+          fs.close(fd, () => {});
         } catch (error) {
           console.log('fs.close', error);
         }
@@ -42,7 +42,7 @@ module.exports = {
       wstream.on('finish', () => {
         resolve();
         try {
-          fs.close(fd);
+          fs.close(fd, () => {});
         } catch (error) {
           console.log('fs.close', error);
         }
