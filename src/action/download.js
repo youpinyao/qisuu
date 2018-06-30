@@ -26,6 +26,16 @@ module.exports = async function (singleContent, singleDownloadPath) {
   for (let content of contents) {
     const novelPath = path.resolve(singleDownloadPath || downloadPath, `${content.title}-${content.author}`);
 
+    if (content.chapter) {
+      const chapterHtml = await request(content.chapter, content.date);
+      const $c = cheerio.load(chapterHtml);
+      const chapters = $c('#info').last().find('.pc_list ul li a');
+
+      content.chapters = Array.prototype.map.call(chapters, (item) => {
+        return `${content.chapter}${$c(item).attr('href')}`;
+      });
+    }
+
     content.chapters = content.chapters.map((c, i) => [c, i]);
 
     if (!fs.existsSync(novelPath)) {
