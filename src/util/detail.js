@@ -36,15 +36,15 @@ module.exports = async function(content) {
     detail.download_url = ''
   }
 
-  if (detail.chapter) {
-    const chapterHtml = await request(detail.chapter, detail.date);
-    const $c = cheerio.load(chapterHtml);
-    const chapters = $c('#info').last().find('.pc_list ul li a');
+  // if (detail.chapter) {
+  //   const chapterHtml = await request(detail.chapter, detail.date);
+  //   const $c = cheerio.load(chapterHtml);
+  //   const chapters = $c('#info').last().find('.pc_list ul li a');
 
-    detail.chapters = Array.prototype.map.call(chapters, (item) => {
-      return `${detail.chapter}${$c(item).attr('href')}`;
-    });
-  }
+  //   detail.chapters = Array.prototype.map.call(chapters, (item) => {
+  //     return `${detail.chapter}${$c(item).attr('href')}`;
+  //   });
+  // }
 
   // console.log('====================================');
   console.log('get detail completed', `${detail.title}-${detail.author}`)
