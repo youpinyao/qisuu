@@ -5,6 +5,7 @@ const request = require('./request')
 const cheerio = require('cheerio')
 
 const getDetail = require('./detail')
+const sleep = require('../util/sleep');
 
 module.exports = async function (page) {
   console.log('====================================')
@@ -49,7 +50,9 @@ module.exports = async function (page) {
 
   console.log('====================================')
   console.log('get contents completed')
-  console.log('====================================')
+  console.log('====================================');
+
+  await sleep();
 
   return new Promise((resolve) => {
     resolve(contents)

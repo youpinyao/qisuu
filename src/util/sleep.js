@@ -1,4 +1,4 @@
-module.exports = function(delay = 0) {
+module.exports = function(delay = 10) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve()

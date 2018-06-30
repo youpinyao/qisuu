@@ -6,6 +6,7 @@ const progress = require('request-progress')
 const path = require('path');
 const request = require('../util/request');
 const file = require('../util/file');
+const sleep = require('../util/sleep');
 // const mobi = require('../util/mobi');
 
 const {
@@ -47,6 +48,8 @@ module.exports = async function (singleContent, singleDownloadPath) {
       // eslint-disable-next-line
       await file.write(chapterPath, `${chapterTitle} \n ${chapterContent}`);
       console.log(chalk.green(`download ${chapterPath} completed`));
+
+      await sleep();
     }
 
     // await mobi(content, novelPath);

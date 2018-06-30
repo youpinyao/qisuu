@@ -3,6 +3,7 @@ const request = require('./request')
 const cheerio = require('cheerio')
 
 const config = require('../config');
+const sleep = require('../util/sleep');
 
 module.exports = async function(content) {
   console.log('====================================')
@@ -48,6 +49,8 @@ module.exports = async function(content) {
   // console.log('====================================');
   console.log('get detail completed', `${detail.title}-${detail.author}`)
   console.log('====================================')
+
+  await sleep();
 
   return new Promise((resolve) => {
     resolve(detail)
