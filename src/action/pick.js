@@ -16,8 +16,9 @@ module.exports = async function () {
     const page = pages[i];
     const content = await getContent(page)
     await file.write(listPath.replace(/\.json/g, `-${i}.json`), JSON.stringify(content));
-    await list.generate();
   }
+
+  list.generate();
 
   console.log('====================================')
   console.log('pick completed')
