@@ -24,6 +24,7 @@ function doRequest(retry, oldResolve, ...args) {
     fs.exists(cachePath, async (exists) => {
       if (exists) {
         resolve(await file.read(cachePath));
+        console.log(chalk.green('from cache', args[0]))
         return
       }
       request(...args).then((res) => {
