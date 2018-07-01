@@ -20,16 +20,18 @@ module.exports = async function (page) {
   $('.listBox ul li').each(function () {
     const desc = `${$(this).find('.s').text()}`.split('作者：').join('$').split('大小：').join('$').split('等级：').join('$').split('更新：').join('$').split('$').filter(item => !!item)
 
+    const page_url = $(this).find('a').eq(0).attr('href');
+
     const content = {
       title: `${$(this).find('a').eq(0).text()}`,
       author: desc[0],
       size: desc[1],
       date: desc[2],
-      page_url: `${config.origin}${$(this).find('a').eq(0).attr('href')}`,
+      page_url: page_url ? `${config.origin}${page_url}` : undefined,
       download_url: '',
       filename: '',
     }
-    contents.push(content)
+    content.page_url && contents.push(content)
   })
 
   for(let content of contents) {

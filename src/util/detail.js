@@ -11,6 +11,8 @@ module.exports = async function (content) {
 
   const html = await request(content.page_url, content.date)
   const $ = cheerio.load(html)
+
+  const chapter_url = $('.showDown ul li').eq(0).find('.downButton').attr('href');
   const detail = {
     title: ($('.detail_right h1').text() || '').replace(/\//g, '|').trim(),
     author: ($('.detail_right ul li').eq(5).text().split('：')[1] || '').replace(/\//g, '|').trim(),
@@ -19,7 +21,7 @@ module.exports = async function (content) {
     date: ($('.detail_right ul li').eq(3).text().split('：')[1] || '').trim(),
     page_url: content.page_url,
     chapter_text: ($('.detail_right ul li').eq(7).text() || '').replace(/\//g, '|'),
-    chapter: `${config.origin}${$('.showDown ul li').eq(0).find('.downButton').attr('href')}`,
+    chapter: chapter_url ? `${config.origin}${chapter_url}` : undefined,
     chapters: [],
     download_url: $('.showDown script').html(),
     filename: '',
