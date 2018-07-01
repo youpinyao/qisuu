@@ -25,8 +25,12 @@ module.exports = async function (specifiedContent, specifiedDownloadPath) {
 
   if (!specifiedContent) {
     for (let list of lists) {
-      const contents = JSON.parse(await file.read(list));
-      await doDownload(contents, downloadPath);
+      try {
+        const contents = JSON.parse(await file.read(list));
+        await doDownload(contents, downloadPath);
+      } catch (error) {
+        console.log(chalk.red(`error ${JSON.stringify(error)} ${list}`));
+      }
     }
   } else {
     await doDownload(specifiedContent, specifiedDownloadPath);
