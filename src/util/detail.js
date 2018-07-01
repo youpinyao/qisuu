@@ -1,5 +1,6 @@
 const request = require('./request')
 const cheerio = require('cheerio')
+const chalk = require('chalk');
 
 const config = require('../config');
 const sleep = require('../util/sleep');
@@ -25,6 +26,10 @@ module.exports = async function (content) {
     chapters: [],
     download_url: $('.showDown script').html(),
     filename: '',
+  }
+
+  if (!chapter_url) {
+    console.log(chalk.red(`chapter_url is empty ${JSON.stringify(detail)}`));
   }
 
   if (detail.chapter) {

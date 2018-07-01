@@ -31,7 +31,7 @@ module.exports = async function (page) {
       download_url: '',
       filename: '',
     }
-    content.page_url && contents.push(content)
+    content.page_url ? contents.push(content) : console.log(chalk.red(`page_url is empty ${JSON.stringify(content)}`))
   })
 
   for(let content of contents) {
