@@ -22,18 +22,14 @@ const options = {
 let dataCache = null;
 let isRuning = false;
 
-if (fs.existsSync(dateCachePath)) {
-  dataCache = fs.readFileSync(dateCachePath).toString();
-}
-
-
 async function run() {
   isRuning = true;
 
   spawn.sync('npm', ['run', 'clear-cache'], options);
   spawn.sync('npm', ['run', 'pick'], options);
   spawn.sync('npm', ['run', 'download'], options);
-  spawn.sync('npm', ['run', 'rss'], options);
+  spawn.sync('npm', ['run', 'serve:stop'], options);
+  spawn.sync('npm', ['run', 'serve'], options);
 
   // if (fs.existsSync(foreverLogPath)) {
   //   fs.unlinkSync(foreverLogPath);
