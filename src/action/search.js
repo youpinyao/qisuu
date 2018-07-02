@@ -106,7 +106,7 @@ module.exports = async function (searchKey) {
     input.ask(function (answers) {
       if (/章节/g.test(downloadMethodAnswer)) {
         chaptersDownload([detail], path.resolve(process.cwd(), answers || '')).then(() => {
-          mobi(detail, path.resolve(process.cwd(), answers || '', `${content.title}-${content.author}`))
+          mobi(detail, path.resolve(process.cwd(), answers || '', `${detail.title}-${detail.author}`))
         });
       } else {
         download(detail, path.resolve(process.cwd(), answers || ''))
