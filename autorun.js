@@ -1,5 +1,6 @@
 const spawn = require('cross-spawn');
 const fs = require('fs');
+const path = require('path');
 const moment = require('moment');
 const chalk = require('chalk');
 
@@ -27,9 +28,11 @@ async function run() {
 
   spawn.sync('npm', ['run', 'clear-cache'], options);
   spawn.sync('npm', ['run', 'pick'], options);
-  spawn.sync('npm', ['run', 'download'], options);
   spawn.sync('npm', ['run', 'serve:stop'], options);
   spawn.sync('npm', ['run', 'serve'], options);
+
+  fs.unlinkSync(path.resolve(__dirname, 'out.log'));
+  fs.writeFileSync(path.resolve(__dirname, 'out.log'), '');
 
   // if (fs.existsSync(foreverLogPath)) {
   //   fs.unlinkSync(foreverLogPath);

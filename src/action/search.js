@@ -8,6 +8,7 @@ const config = require('../config');
 const getDetail = require('../util/detail');
 const chaptersDownload = require('../action/download');
 const download = require('../util/download');
+const mobi = require('../util/mobi');
 
 const mail = require('../util/mail');
 
@@ -104,7 +105,9 @@ module.exports = async function (searchKey) {
 
     input.ask(function (answers) {
       if (/章节/g.test(downloadMethodAnswer)) {
-        chaptersDownload([detail], path.resolve(process.cwd(), answers || ''));
+        chaptersDownload([detail], path.resolve(process.cwd(), answers || '')).then(() => {
+          mobi(detail, path.resolve(process.cwd(), answers || '', `${content.title}-${content.author}`))
+        });
       } else {
         download(detail, path.resolve(process.cwd(), answers || ''))
       }

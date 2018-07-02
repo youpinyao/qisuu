@@ -25,7 +25,7 @@ module.exports = {
         }
       }
     }
-    await file.write(listPath, JSON.stringify(contents));
+    await file.write(listPath, JSON.stringify(contents.sort((a, b) => parseFloat(a) - parseFloat(b))));
   },
   async get() {
     const files = fs.readdirSync(jsonPath);
