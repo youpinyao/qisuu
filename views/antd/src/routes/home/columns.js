@@ -13,7 +13,7 @@ export default ({
   push_mail,
   updatePushMail,
   onConfirmPushMailTxt,
-  onConfirmPushMailMobi,
+  // onConfirmPushMailMobi,
   setCurrentRow,
 }) => {
   return [{
@@ -78,7 +78,11 @@ export default ({
             )}
             onConfirm={onConfirmPushMailMobi}
           >
-            <Button className="ml-10" loading={loading.effects['home/pushToKindleMobi']} onClick={() => setCurrentRow(record)}>推送mobi到kindle</Button>
+            <Button
+              className="ml-10"
+              loading={loading.effects['home/pushToKindleMobi']}
+              onClick={() => setCurrentRow(record)}
+            >推送mobi到kindle</Button>
           </Popconfirm> */}
         </div>
       );
