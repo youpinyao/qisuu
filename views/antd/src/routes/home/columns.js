@@ -71,7 +71,7 @@ export default ({
             <Button loading={loading.effects['home/pushToKindleTxt']} onClick={() => setCurrentRow(record)}>推送txt到kindle</Button>
           </Popconfirm>
 
-          <Popconfirm
+          {/* <Popconfirm
             overlayClassName={styles.popConfirm}
             title={(
               <Input placeholder="请输入 kindle 邮箱地址" onChange={updatePushMail} value={push_mail} />
@@ -79,7 +79,7 @@ export default ({
             onConfirm={onConfirmPushMailMobi}
           >
             <Button className="ml-10" loading={loading.effects['home/pushToKindleMobi']} onClick={() => setCurrentRow(record)}>推送mobi到kindle</Button>
-          </Popconfirm>
+          </Popconfirm> */}
         </div>
       );
     },
