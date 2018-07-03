@@ -55,7 +55,7 @@ async function doDownload(contents, downloadPath) {
 
     // 封面图
     if (content.cover) {
-      console.log('download cover', content.cover);
+      console.log(chalk.green(`download cover ${content.cover}`));
       await downloadCover(content, novelPath);
     }
 
