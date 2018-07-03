@@ -49,7 +49,7 @@ export default ({
     dataIndex: 'chapter_text',
     render(text, record) {
       return (
-        <a href={record.chapter}>{record.chapter_text}</a>
+        <a href={record.chapter} target="_blank">{record.chapter_text}</a>
       );
     },
   }, {
