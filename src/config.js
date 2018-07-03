@@ -1,6 +1,8 @@
 const path = require('path');
 
 module.exports = {
+  concurrent: 5,
+  parser: 'qisuu',
   origin: 'https://www.qisuu.la',
   pagesUrl: 'https://www.qisuu.la/s/new/',
   searchUrl: 'http://zhannei.baidu.com/cse/site/',
@@ -14,5 +16,4 @@ module.exports = {
   foreverLogPath: path.resolve(__dirname, '../forever.log'),
   outLogPath: path.resolve(__dirname, '../out.log'),
   errLogPath: path.resolve(__dirname, '../err.log'),
-  concurrent: 10,
 }

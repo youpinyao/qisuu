@@ -1,9 +1,9 @@
 const fs = require('fs');
 const chalk = require('chalk');
-const cheerio = require('cheerio');
 const nativeRequest = require('request')
 const progress = require('request-progress')
 const path = require('path');
+
 const request = require('../util/request');
 const file = require('../util/file');
 const list = require('../util/list')
@@ -75,11 +75,15 @@ async function doDownload(contents, downloadPath) {
 }
 
 async function downloadChapter(chapter, index, novelPath) {
+  const {
+    chapter: getChapter,
+  } = require('../parseres');
   const html = await request(chapter);
-  const $ = cheerio.load(html);
-  const chapterTitle = $('.txt_cont > h1').text().trim().replace(/\//g, '|');
-  const chapterPath = path.resolve(novelPath, `${index + 1}-${chapterTitle}.txt`);
-  const chapterContent = $('#content1').text();
+  const {
+    title: chapterTitle,
+    content: chapterContent,
+  } = await getChapter(html);
+  const chapterPath = path.resolve(novelPath, `${index + 1}-${chapterTitle.substr(0, 20)}.txt`);
 
   // eslint-disable-next-line
   await file.write(chapterPath, `${chapterTitle} \n ${chapterContent}`);

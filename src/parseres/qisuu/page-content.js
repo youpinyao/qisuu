@@ -1,15 +1,17 @@
-const config = require('../config')
+
 // eslint-disable-next-line
 const chalk = require('chalk')
-const request = require('./request')
 const cheerio = require('cheerio')
 
-const getDetail = require('./detail')
-const sleep = require('../util/sleep');
-
+const config = require('../../config')
+const request = require('../../util/request')
+const sleep = require('../../util/sleep');
 const {
   concurrent,
-} = require('../config');
+} = require('../../config');
+
+const getDetail = require('./page-content-detail')
+
 
 module.exports = async function (page) {
   console.log('====================================')

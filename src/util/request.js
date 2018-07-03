@@ -24,13 +24,14 @@ function doRequest(retry, oldResolve, ...args) {
     fs.exists(cachePath, async (exists) => {
       if (exists) {
         resolve(await file.read(cachePath));
-        console.log(chalk.green('from cache', args[0]))
+        console.log(chalk.yellow('from cache', args[0]))
         return
       }
       request(...args).then((res) => {
         resolve(res)
         oldResolve && oldResolve(res);
-        file.write(cachePath, res).then(() => console.log(chalk.yellow(`cached ${args[0]}`)));
+        file.write(cachePath, res).then(() => {});
+        // console.log(chalk.yellow(`cached ${args[0]}`))
       }, (res) => {
         if (retry) {
           console.log('====================================')

@@ -7,16 +7,14 @@
     "pick": "node index.js pick",
     "download": "node index.js download",
     "clear-cache": "node index.js clear-cache",
-    "clear-repeat": "node index.js clear-repeat",
-    "clear-repeat-force": "node index.js clear-repeat-force",
+    "clear-cache-all": "node index.js clear-cache-all",
     "search": "node index.js search",
-    "rss": "node index.js rss",
     "serve:dev": "nodemon -w server server/index.js",
     "autorun": "rm -rf /root/.forever/forever.log && rm -rf out.log && rm -rf err.log && forever -a -l forever.log -o out.log -e err.log start autorun.js",
     "autorun:stop": "forever stop autorun.js",
     "serve": "rm -rf /root/.forever/forever-serve.log && rm -rf out-serve.log && rm -rf err-serve.log && forever -a -l forever-serve.log -o out-serve.log -e err-serve.log start server/index.js",
     "serve:stop": "forever stop server/index.js",
-    "generate:list": "node src/action/list.js"
+    "generate:list": "node src/action/generate-list.js"
   },
   "bin": {
     "qisuu": "./index.js"

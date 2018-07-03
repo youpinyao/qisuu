@@ -1,9 +1,10 @@
-const request = require('./request')
+
 const cheerio = require('cheerio')
 const chalk = require('chalk');
 
-const config = require('../config');
-const sleep = require('../util/sleep');
+const request = require('../../util/request')
+const config = require('../../config');
+const sleep = require('../../util/sleep');
 
 module.exports = async function (content) {
   console.log('====================================')

@@ -2,8 +2,10 @@
 
 const list = require('../util/list');
 const file = require('../util/file');
-const getPage = require('../util/page')
-const getContent = require('../util/content');
+const {
+  page: getPage,
+  pageContent: getPageContent,
+} = require('../parseres');
 
 const {
   listPath,
@@ -14,7 +16,7 @@ module.exports = async function () {
 
   for (let i = 0; i < pages.length; i++) {
     const page = pages[i];
-    const content = await getContent(page)
+    const content = await getPageContent(page)
     await file.write(listPath.replace(/\.json/g, `-${i}.json`), JSON.stringify(content));
   }
 

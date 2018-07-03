@@ -1,6 +1,8 @@
-const config = require('../config')
-const request = require('./request')
+
 const cheerio = require('cheerio')
+
+const config = require('../../config')
+const request = require('../../util/request')
 
 module.exports = async function () {
   console.log('====================================')
