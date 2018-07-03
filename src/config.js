@@ -14,4 +14,5 @@ module.exports = {
   foreverLogPath: path.resolve(__dirname, '../forever.log'),
   outLogPath: path.resolve(__dirname, '../out.log'),
   errLogPath: path.resolve(__dirname, '../err.log'),
+  concurrent: 10,
 }

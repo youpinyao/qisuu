@@ -11,6 +11,7 @@ const sleep = require('../util/sleep');
 // const mobi = require('../util/mobi');
 
 const {
+  concurrent,
   downloadPath,
 } = require('../config');
 
@@ -45,7 +46,8 @@ async function doDownload(contents, downloadPath) {
   for (let content of contents) {
     const novelPath = path.resolve(downloadPath, `${content.title}-${content.author}`);
 
-    content.chapters = content.chapters.map((c, i) => [c, i]);
+    const chapters = content.chapters.map((c, i) => [c, i]);
+    const concurrentChapters = [];
 
     if (!fs.existsSync(novelPath)) {
       fs.mkdirSync(novelPath);
@@ -57,22 +59,33 @@ async function doDownload(contents, downloadPath) {
       await downloadCover(content, novelPath);
     }
 
-    for (let [chapter, index] of content.chapters) {
-      const html = await request(chapter);
-      const $ = cheerio.load(html);
-      const chapterTitle = $('.txt_cont > h1').text().trim().replace(/\//g, '|');
-      const chapterPath = path.resolve(novelPath, `${index + 1}-${chapterTitle}.txt`);
-      const chapterContent = $('#content1').text();
+    for (let i = 0; i < chapters.length; i++) {
+      if (i % concurrent === 0) {
+        concurrentChapters.push([]);
+      }
+      concurrentChapters[concurrentChapters.length - 1].push(chapters[i]);
+    }
 
-      // eslint-disable-next-line
-      await file.write(chapterPath, `${chapterTitle} \n ${chapterContent}`);
-      console.log(chalk.green(`download ${chapterPath} completed`));
-
-      await sleep();
+    for (let concurrentChapter of concurrentChapters) {
+      await Promise.all(concurrentChapter.map(([chapter, index]) => downloadChapter(chapter, index, novelPath)));
     }
 
     // await mobi(content, novelPath);
   }
+}
+
+async function downloadChapter(chapter, index, novelPath) {
+  const html = await request(chapter);
+  const $ = cheerio.load(html);
+  const chapterTitle = $('.txt_cont > h1').text().trim().replace(/\//g, '|');
+  const chapterPath = path.resolve(novelPath, `${index + 1}-${chapterTitle}.txt`);
+  const chapterContent = $('#content1').text();
+
+  // eslint-disable-next-line
+  await file.write(chapterPath, `${chapterTitle} \n ${chapterContent}`);
+  console.log(chalk.green(`download ${chapterPath} completed`));
+
+  await sleep();
 }
 
 function downloadCover(content, novelPath) {

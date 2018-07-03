@@ -7,6 +7,10 @@ const cheerio = require('cheerio')
 const getDetail = require('./detail')
 const sleep = require('../util/sleep');
 
+const {
+  concurrent,
+} = require('../config');
+
 module.exports = async function (page) {
   console.log('====================================')
   console.log('geting contents', page)
@@ -15,7 +19,8 @@ module.exports = async function (page) {
   const html = await request(page)
   const $ = cheerio.load(html)
   let contents = []
-  const details = []
+  let details = [];
+  const concurrentContents = [];
 
   $('.listBox ul li').each(function () {
     const desc = `${$(this).find('.s').text()}`.split('作者：').join('$').split('大小：').join('$').split('等级：').join('$').split('更新：').join('$').split('$').filter(item => !!item)
@@ -34,9 +39,17 @@ module.exports = async function (page) {
     content.page_url ? contents.push(content) : console.log(chalk.red(`page_url is empty ${JSON.stringify(content)}`))
   })
 
-  for(let content of contents) {
-    const detail = await getDetail(content)
-    details.push(detail)
+  for (let i = 0; i < contents.length; i++) {
+    if (i % concurrent === 0) {
+      concurrentContents.push([]);
+    }
+    concurrentContents[concurrentContents.length - 1].push(contents[i]);
+  }
+
+  for (let concurrentContent of concurrentContents) {
+    const concurrentDetails = await Promise.all(concurrentContent.map(c => getDetail(c)));
+
+    details = details.concat(concurrentDetails);
   }
 
   contents = contents.map((content, index) => {
