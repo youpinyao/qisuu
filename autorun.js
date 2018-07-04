@@ -31,7 +31,6 @@ async function run() {
   spawn.sync('npm', ['run', 'serve:stop'], options);
   spawn.sync('npm', ['run', 'serve'], options);
 
-  fs.unlinkSync(path.resolve(__dirname, 'out.log'));
   fs.writeFileSync(path.resolve(__dirname, 'out.log'), '');
 
   // if (fs.existsSync(foreverLogPath)) {
