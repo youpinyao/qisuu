@@ -24,7 +24,7 @@ module.exports = {
         autoClose: true,
       });
       wstream.on('open', () => {
-        wstream.write(content);
+        wstream.write(content, 'utf-8');
         wstream.end();
       });
       wstream.on('error', reject);

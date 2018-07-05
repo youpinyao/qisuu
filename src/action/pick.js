@@ -1,4 +1,5 @@
 // const fs = require('fs');
+const chalk = require('chalk');
 
 const list = require('../util/list');
 const file = require('../util/file');
@@ -18,7 +19,8 @@ module.exports = async function () {
     const page = pages[i];
     const content = await getPageContent(page);
 
-    console.log('write', JSON.stringify(content).substr(0, 100));
+    console.log('write', chalk.green(JSON.stringify(content).substr(0, 100)), '...');
+
     await file.write(listPath.replace(/\.json/g, `-${i}.json`), JSON.stringify(content));
   }
 
