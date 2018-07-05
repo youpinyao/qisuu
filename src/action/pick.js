@@ -16,7 +16,9 @@ module.exports = async function () {
 
   for (let i = 0; i < pages.length; i++) {
     const page = pages[i];
-    const content = await getPageContent(page)
+    const content = await getPageContent(page);
+
+    console.log('write', JSON.stringify(content).substr(0, 100));
     await file.write(listPath.replace(/\.json/g, `-${i}.json`), JSON.stringify(content));
   }
 
