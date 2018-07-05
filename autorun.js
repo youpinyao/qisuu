@@ -26,7 +26,7 @@ let isRuning = false;
 async function run() {
   isRuning = true;
 
-  spawn.sync('npm', ['run', 'clear-cache-all'], options);
+  spawn.sync('npm', ['run', 'clear-cache'], options);
   spawn.sync('npm', ['run', 'pick'], options);
   spawn.sync('npm', ['run', 'serve:stop'], options);
   spawn.sync('npm', ['run', 'serve'], options);
