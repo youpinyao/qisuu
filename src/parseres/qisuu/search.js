@@ -6,6 +6,7 @@ const path = require('path');
 const request = require('../../util/request');
 const config = require('../../config');
 const getDetail = require('./page-content-detail');
+const clear = require('./clear');
 const chaptersDownload = require('../../action/download');
 const download = require('../../util/download');
 const mobi = require('../../util/mobi');
@@ -30,6 +31,8 @@ module.exports = async function (searchKey) {
     console.log();
     return;
   }
+
+  clear();
 
   params.q = searchKey;
 
