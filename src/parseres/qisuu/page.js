@@ -7,7 +7,7 @@ const request = require('../../util/request')
 module.exports = async function () {
   console.log('====================================')
   console.log('geting pages', config.pagesUrl)
-  console.log('====================================')
+  // console.log('====================================')
 
   const html = await request(config.pagesUrl)
   const $ = cheerio.load(html)
@@ -20,7 +20,7 @@ module.exports = async function () {
   return new Promise((resolve) => {
     setTimeout(() => resolve(pages))
 
-    console.log('====================================')
+    // console.log('====================================')
     console.log('get pages completed')
     console.log('====================================')
   })

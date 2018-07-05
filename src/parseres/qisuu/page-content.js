@@ -16,7 +16,7 @@ const getDetail = require('./page-content-detail')
 module.exports = async function (page) {
   console.log('====================================')
   console.log('geting contents', page)
-  console.log('====================================')
+  // console.log('====================================')
 
   const html = await request(page)
   const $ = cheerio.load(html)
@@ -65,7 +65,7 @@ module.exports = async function (page) {
     }
   })
 
-  console.log('====================================')
+  // console.log('====================================')
   console.log('get contents completed')
   console.log('====================================');
 

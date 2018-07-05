@@ -7,8 +7,8 @@ const config = require('../../config');
 const sleep = require('../../util/sleep');
 
 module.exports = async function (content) {
-  console.log('====================================')
-  console.log('geting detail', content.page_url)
+  // console.log('====================================')
+  // console.log('geting detail', content.page_url)
   // console.log('====================================');
 
   const html = await request(content.page_url, content.date)
@@ -55,7 +55,7 @@ module.exports = async function (content) {
 
   // console.log('====================================');
   console.log('get detail completed', `${detail.title}-${detail.author}`)
-  console.log('====================================')
+  // console.log('====================================')
 
   await sleep();
 
