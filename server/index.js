@@ -5,7 +5,7 @@ const logger = require('morgan');
 const path = require('path');
 const app = express();
 
-app.use(logger());
+app.use(logger('common'));
 app.use(bodyParser.urlencoded({
   extended: false,
 }));
@@ -15,7 +15,9 @@ app.set('view options', {
   debug: process.env.NODE_ENV !== 'production'
 });
 
-app.use('/assets', express.static(path.resolve(__dirname, '../views/antd/dist')));
+app.use('/assets', express.static(path.resolve(__dirname, '../views/antd/dist'), {
+  maxAge: 1 * 60 * 60 * 1000 * 1000
+}));
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
