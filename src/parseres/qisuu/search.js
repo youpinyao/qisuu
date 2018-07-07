@@ -76,7 +76,7 @@ module.exports = async function (searchKey) {
 
   const answer = await list.run();
 
-  const detail = await getDetail(data.filter(item => item.text === answer)[0]);
+  const detail = await getDetail(data.filter(item => item.text === answer)[0], +new Date());
 
   const downloadMethodChoices = [
     '下载到本地（txt）',
