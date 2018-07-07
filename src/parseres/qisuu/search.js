@@ -55,6 +55,7 @@ module.exports = async function (searchKey) {
     Array.prototype.map.call($('.content-main .result .c-title a'), item => ({
       text: $(item).text(),
       page_url: $(item).attr('href'),
+      date: +new Date(),
     })).filter(item => item.text.endsWith(',txt全集下载,电子书-奇书网')).forEach(item => data.push(item));
 
     console.log(chalk.yellow(`search page ${params.p + 1}`));
@@ -76,7 +77,7 @@ module.exports = async function (searchKey) {
 
   const answer = await list.run();
 
-  const detail = await getDetail(data.filter(item => item.text === answer)[0], +new Date());
+  const detail = await getDetail(data.filter(item => item.text === answer)[0]);
 
   const downloadMethodChoices = [
     '下载到本地（txt）',
