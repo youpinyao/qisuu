@@ -13,7 +13,10 @@ const {
 const getDetail = require('./page-content-detail')
 
 
-module.exports = async function (page) {
+module.exports = async function (
+  page, 
+  detail = false // 是否拉取详情
+) {
   console.log('====================================')
   console.log('geting contents', page)
   // console.log('====================================')
@@ -41,29 +44,31 @@ module.exports = async function (page) {
     content.page_url ? contents.push(content) : console.log(chalk.red(`page_url is empty ${JSON.stringify(content)}`))
   })
 
-  for (let i = 0; i < contents.length; i++) {
-    if (i % concurrent === 0) {
-      concurrentContents.push([]);
+  if (detail) {
+    for (let i = 0; i < contents.length; i++) {
+      if (i % concurrent === 0) {
+        concurrentContents.push([]);
+      }
+      concurrentContents[concurrentContents.length - 1].push(contents[i]);
     }
-    concurrentContents[concurrentContents.length - 1].push(contents[i]);
-  }
 
-  for (let concurrentContent of concurrentContents) {
-    const concurrentDetails = await Promise.all(concurrentContent.map(c => getDetail(c)));
+    for (let concurrentContent of concurrentContents) {
+      const concurrentDetails = await Promise.all(concurrentContent.map(c => getDetail(c)));
 
-    details = details.concat(concurrentDetails);
-  }
-
-  contents = contents.map((content, index) => {
-    const detail = details[index];
-    const filename = detail.download_url.split('/');
-
-    return {
-      ...content,
-      ...detail,
-      filename: filename[filename.length - 1]
+      details = details.concat(concurrentDetails);
     }
-  })
+
+    contents = contents.map((content, index) => {
+      const detail = details[index];
+      const filename = detail.download_url.split('/');
+
+      return {
+        ...content,
+        ...detail,
+        filename: filename[filename.length - 1]
+      }
+    })
+  }
 
   // console.log('====================================')
   console.log('get contents completed')

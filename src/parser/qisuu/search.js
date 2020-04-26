@@ -17,10 +17,7 @@ const List = require('prompt-list');
 const Input = require('prompt-input');
 
 const params = {
-  cc: 'qisuu.la',
-  s: '6107665092019918800',
-  q: '',
-  p: -1,
+  searchkey: '',
 }
 
 // eslint-disable-next-line
@@ -34,39 +31,27 @@ module.exports = async function (searchKey) {
 
   clear();
 
-  params.q = searchKey;
+  params.searchkey = searchKey;
 
   let html = null;
   let $ = null;
-  let pageSize = 0;
   const data = [];
 
-  while (params.p < pageSize) {
-    params.p++;
+  html = await request(`${config.searchUrl}?${queryString.stringify(params)}`);
+  $ = cheerio.load(html);
 
-    html = await request(`${config.searchUrl}?${queryString.stringify(params)}`);
-    $ = cheerio.load(html);
-    pageSize = parseInt($('#pageFooter > *').last().prev().find('.pager-normal-foot').text(), 10) || 0;
-
-    if (pageSize < 0) {
-      pageSize = 0;
-    }
-
-    Array.prototype.map.call($('.content-main .result .c-title a'), item => ({
-      text: $(item).text(),
-      page_url: $(item).attr('href'),
-      date: +new Date(),
-    })).filter(item => item.text.endsWith(',txt全集下载,电子书-奇书网')).forEach(item => data.push(item));
-
-    console.log(chalk.yellow(`search page ${params.p + 1}`));
-
-  }
+  Array.prototype.map.call($('#checkform table tr td:nth-child(2) a'), item => ({
+    text: $(item).text(),
+    author: $(item).parent().next().text(),
+    page_url: `${config.origin}${$(item).attr('href')}`,
+    date: +new Date(),
+  })).forEach(item => data.push(item));
 
   if (!data.length) {
-    console.log(chalk.red('搜索结果为空'));
+    console.log(`${config.searchUrl}?${queryString.stringify(params)}`, chalk.red('搜索结果为空'));
     return;
   }
-  const choices = data.map(item => item.text);
+  const choices = data.map(item => `${item.text} - ${item.author}`);
 
   const list = new List({
     name: '选择',
@@ -77,7 +62,7 @@ module.exports = async function (searchKey) {
 
   const answer = await list.run();
 
-  const detail = await getDetail(data.filter(item => item.text === answer)[0]);
+  const detail = await getDetail(data.filter(item => `${item.text} - ${item.author}` === answer)[0]);
 
   const downloadMethodChoices = [
     '下载到本地（txt）',
@@ -109,6 +94,8 @@ module.exports = async function (searchKey) {
 
     input.ask(function (answers) {
       if (/章节/g.test(downloadMethodAnswer)) {
+        console.log('detail', detail);
+        
         chaptersDownload([detail], path.resolve(process.cwd(), answers || '')).then(() => {
           mobi(detail, path.resolve(process.cwd(), answers || '', `${detail.title}-${detail.author}`))
         });

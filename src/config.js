@@ -5,7 +5,7 @@ module.exports = {
   parser: 'qisuu',
   origin: 'http://www.xqishuta.com',
   pagesUrl: 'http://www.xqishuta.com/s/new/',
-  searchUrl: 'http://www.xqishuta.com/search.html/',
+  searchUrl: 'http://www.xqishuta.com/search.html',
   listPath: path.resolve(__dirname, '../json/list.json'),
   jsonPath:  path.resolve(__dirname, '../json'),
   downloadPath: path.resolve(__dirname, '../download'),
