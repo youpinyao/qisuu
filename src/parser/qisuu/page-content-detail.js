@@ -31,17 +31,19 @@ module.exports = async function (content) {
 
   if (!chapter_url) {
     console.log(chalk.red(`chapter_url is empty ${JSON.stringify(detail)}`));
+    console.log(chalk.red(content.page_url));
   }
 
-  if (detail.chapter) {
-    const chapterHtml = await request(detail.chapter, detail.date);
-    const $c = cheerio.load(chapterHtml);
-    const chapters = $c('#info').last().find('.pc_list ul li a');
+  // 章节列表
+  // if (detail.chapter) {
+  //   const chapterHtml = await request(detail.chapter, detail.date);
+  //   const $c = cheerio.load(chapterHtml);
+  //   const chapters = $c('#info').last().find('.pc_list ul li a');
 
-    detail.chapters = Array.prototype.map.call(chapters, (item) => {
-      return `${detail.chapter}${$c(item).attr('href')}`;
-    });
-  }
+  //   detail.chapters = Array.prototype.map.call(chapters, (item) => {
+  //     return `${detail.chapter}${$c(item).attr('href')}`;
+  //   });
+  // }
 
   if (detail.download_url) {
     detail.download_url = detail.download_url.split('\',\'')[1];

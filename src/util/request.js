@@ -27,23 +27,27 @@ function doRequest(retry, oldResolve, ...args) {
         console.log(chalk.yellow('from cache', args[0]))
         return
       }
-      request(...args).then((res) => {
-        resolve(res)
-        oldResolve && oldResolve(res);
-        file.write(cachePath, res).then(() => {});
-        // console.log(chalk.yellow(`cached ${args[0]}`))
-      }, (res) => {
-        if (retry) {
-          console.log('====================================')
-          console.log(chalk.red(`retry ${retry} request fail ${args[0]}`))
-          console.log('====================================')
-          return doRequest(--retry, oldResolve || resolve, ...args)
+      request(args[0], {
+        gzip: true,
+      }, function (err, resp, body) {
+        if (err) {
+          if (retry) {
+            console.log('====================================')
+            console.log(chalk.red(`retry ${retry} request fail ${args[0]}`))
+            console.log('====================================')
+            return doRequest(--retry, oldResolve || resolve, ...args)
+          } else {
+            file.write(`${failPath}/${args[0].replace(/\//g, '$')}`, body).then(() => console.log(chalk.red(`fail ${args[0]}`)));
+            resolve()
+            oldResolve && oldResolve();
+          }
         } else {
-          file.write(`${failPath}/${args[0].replace(/\//g, '$')}`, res).then(() => console.log(chalk.red(`fail ${args[0]}`)));
-          resolve()
-          oldResolve && oldResolve();
+          resolve(body);
+          oldResolve && oldResolve(body);
+          file.write(cachePath, body).then(() => { });
+          // console.log(chalk.yellow(`cached ${args[0]}`))
         }
-      })
+      });
     })
   });
 }
