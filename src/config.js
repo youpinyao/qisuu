@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+  // 同时下载数
   concurrent: 5,
   parser: 'qisuu',
   origin: 'http://www.xqishuta.com',
