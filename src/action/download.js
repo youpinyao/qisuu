@@ -77,7 +77,7 @@ async function doDownload(contents, downloadPath) {
 async function downloadChapter(chapter, index, novelPath) {
   const {
     chapter: getChapter,
-  } = require('../parseres');
+  } = require('../parser');
   const html = await request(chapter);
   const {
     title: chapterTitle,

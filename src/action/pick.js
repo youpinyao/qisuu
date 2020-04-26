@@ -6,7 +6,7 @@ const file = require('../util/file');
 const {
   page: getPage,
   pageContent: getPageContent,
-} = require('../parseres');
+} = require('../parser');
 
 const {
   listPath,

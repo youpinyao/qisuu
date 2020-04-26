@@ -1,6 +1,6 @@
 const {
   search,
-} = require('../parseres');
+} = require('../parser');
 
 module.exports = async function (searchKey) {
   await search(searchKey);

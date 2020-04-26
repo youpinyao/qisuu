@@ -1,7 +1,7 @@
 
 const {
   clear,
-} = require('../parseres');
+} = require('../parser');
 
 module.exports = async function (isAll) {
   await clear(isAll);

@@ -9,7 +9,7 @@ module.exports = async function (isAll) {
     const files = fs.readdirSync(cachePath);
 
     for(let file of files) {
-      if (/\$s\$new\$|zhannei\.baidu\.com/g.test(file) || isAll) {
+      if (/\$s\$new\$/g.test(file) || isAll) {
         fs.unlinkSync(`${cachePath}/${file}`);
       }
     }
