@@ -5,7 +5,9 @@ import {
   Table,
   Row,
   Input,
+  Col,
   message,
+  Select,
 } from 'antd';
 
 import columns from './columns';
@@ -22,6 +24,7 @@ class Home extends React.Component {
         tableData,
         pagination,
         searchKey,
+        fileSize,
         push_mail,
       },
     } = this.props;
@@ -38,11 +41,11 @@ class Home extends React.Component {
       });
     };
 
-    const doSearch = (e) => {
+    const doSearch = (e, key) => {
       dispatch({
         type: 'home/updateState',
         payload: {
-          searchKey: e.target.value,
+          [key]: e.target ? e.target.value : e,
           pagination: {
             ...pagination,
             current: 1,
@@ -95,7 +98,16 @@ class Home extends React.Component {
             padding: 15,
           }}
         >
-          <Input defaultValue={searchKey} placeholder="请输入搜索关键字" onPressEnter={doSearch} />
+          <Col span={12}>
+            <Input defaultValue={searchKey} placeholder="请输入搜索关键字" onPressEnter={e => doSearch(e, 'searchKey')} />
+          </Col>
+          <Col offset={1} span={11}>
+            <Select onChange={e => doSearch(e, 'fileSize')} style={{ width: '100%' }} placeholder="文件大小" value={fileSize}>
+              <Select.Option value={0}>0M</Select.Option>
+              <Select.Option value={5}>5M</Select.Option>
+              <Select.Option value={10}>10M</Select.Option>
+            </Select>
+          </Col>
         </Row>
         <Row>
           <Table
