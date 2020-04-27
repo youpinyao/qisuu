@@ -1,7 +1,7 @@
 {
   "name": "qisuu",
-  "version": "1.0.17",
-  "description": "pull www.qisuu.la",
+  "version": "1.0.18",
+  "description": "pull http://www.xqishuta.com",
   "main": "index.js",
   "scripts": {
     "pick": "node index.js pick",
