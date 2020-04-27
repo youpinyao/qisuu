@@ -15,7 +15,7 @@ const getDetail = require('./page-content-detail')
 
 module.exports = async function (
   page, 
-  detail = false // 是否拉取详情
+  detail = true // 是否拉取详情
 ) {
   console.log('====================================')
   console.log('geting contents', page)

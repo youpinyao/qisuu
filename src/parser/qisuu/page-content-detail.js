@@ -6,7 +6,10 @@ const request = require('../../util/request')
 const config = require('../../config');
 const sleep = require('../../util/sleep');
 
-module.exports = async function (content, chapter = false) {
+module.exports = async function (
+  content, 
+  chapter = false, // 是否拉取章节
+) {
   // console.log('====================================')
   // console.log('geting detail', content.page_url)
   // console.log('====================================');
