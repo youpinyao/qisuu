@@ -1,6 +1,6 @@
 {
   "name": "qisuu",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "pull http://www.xqishuta.com",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "generate:list": "node src/action/generate-list.js"
   },
   "bin": {
-    "qisuu": "./index.js"
+    "qisu": "./index.js"
   },
   "repository": {
     "type": "git",
