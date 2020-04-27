@@ -6,7 +6,7 @@ const request = require('../../util/request')
 const config = require('../../config');
 const sleep = require('../../util/sleep');
 
-module.exports = async function (content) {
+module.exports = async function (content, chapter = false) {
   // console.log('====================================')
   // console.log('geting detail', content.page_url)
   // console.log('====================================');
@@ -35,7 +35,7 @@ module.exports = async function (content) {
   }
 
   // 章节列表
-  if (detail.chapter) {
+  if (detail.chapter && chapter) {
     const chapterHtml = await request(detail.chapter, detail.date);
     const $c = cheerio.load(chapterHtml);
     const chapters = $c('#info').last().find('.pc_list ul li a');
