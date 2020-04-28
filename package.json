@@ -1,6 +1,6 @@
 {
   "name": "qisuu",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "pull http://www.xqishuta.com",
   "main": "index.js",
   "scripts": {
