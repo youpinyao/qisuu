@@ -18,7 +18,7 @@ module.exports = {
       readable.on('error', reject);
     });
   },
-  write(path, content) {
+  write(path, content = '') {
     return new Promise((resolve, reject) => {
       const wstream = fs.createWriteStream(path, {
         autoClose: true,
