@@ -17,6 +17,8 @@ module.exports = async function (
   const html = await request(content.page_url, content.date)
   const $ = cheerio.load(html)
 
+  console.log('get detail request completed', content.page_url)
+
   const chapter_url = $('.showDown ul li').eq(0).find('.downButton').attr('href');
   const detail = {
     title: ($('.detail_right h1').text() || '').replace(/\//g, '|').trim(),
