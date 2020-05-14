@@ -11,6 +11,7 @@ export default {
     tableData: [],
     searchKey: '',
     fileSize: 0,
+    orderBy: 0,
     // push_mail: '',
     push_mail: '8618650808852@kindle.cn',
     // push_mail: '497400448@qq.com',
@@ -39,11 +40,13 @@ export default {
       const {
         searchKey,
         fileSize,
+        orderBy,
         pagination,
       } = yield select(({ home }) => home);
       const data = yield call(request.get, urls.list, {
         searchKey,
         fileSize,
+        orderBy,
         ...pagination,
       });
 

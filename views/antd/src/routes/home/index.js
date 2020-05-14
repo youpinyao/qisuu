@@ -25,6 +25,7 @@ class Home extends React.Component {
         pagination,
         searchKey,
         fileSize,
+        orderBy,
         push_mail,
       },
     } = this.props;
@@ -42,15 +43,19 @@ class Home extends React.Component {
     };
 
     const doSearch = (e, key) => {
+      const payload = {
+        [key]: e.target ? e.target.value : e,
+        pagination: {
+          ...pagination,
+          current: 1,
+        },
+      };
+      if (key === 'fileSize') {
+        payload.orderBy = 1;
+      }
       dispatch({
         type: 'home/updateState',
-        payload: {
-          [key]: e.target ? e.target.value : e,
-          pagination: {
-            ...pagination,
-            current: 1,
-          },
-        },
+        payload,
       });
       dispatch({
         type: 'home/queryTable',
@@ -98,10 +103,16 @@ class Home extends React.Component {
             padding: 15,
           }}
         >
-          <Col span={12}>
+          <Col span={8}>
             <Input defaultValue={searchKey} placeholder="请输入搜索关键字" onPressEnter={e => doSearch(e, 'searchKey')} />
           </Col>
-          <Col offset={1} span={11}>
+          <Col offset={1} span={7}>
+            <Select onChange={e => doSearch(e, 'orderBy')} style={{ width: '100%' }} placeholder="排序方式" value={orderBy}>
+              <Select.Option value={0}>时间</Select.Option>
+              <Select.Option value={1}>大小</Select.Option>
+            </Select>
+          </Col>
+          <Col offset={1} span={7}>
             <Select onChange={e => doSearch(e, 'fileSize')} style={{ width: '100%' }} placeholder="文件大小" value={fileSize}>
               <Select.Option value={0}>0M</Select.Option>
               <Select.Option value={5}>5M</Select.Option>
