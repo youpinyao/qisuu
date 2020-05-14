@@ -34,7 +34,7 @@ commander
   })
   .on('--help', function () {
     console.log('');
-    console.log('qisuu search <searchKey>');
+    console.log('qisu search <searchKey>');
     console.log('');
   })
   .parse(process.argv)
