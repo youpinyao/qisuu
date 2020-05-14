@@ -8,8 +8,6 @@ module.exports = (req, res) => {
     pageSize = 10,
   } = req.query;
 
-  console.log(req.query);
-
   const newList = list
     .filter(item => (new RegExp(searchKey)).test(item.title) || (new RegExp(searchKey)).test(item.author))
     .filter(item => parseFloat(item.size) > parseFloat(fileSize))
