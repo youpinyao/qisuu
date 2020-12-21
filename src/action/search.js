@@ -1,7 +1,5 @@
-const {
-  search,
-} = require('../parser');
+const { search } = require('../parser');
 
 module.exports = async function (searchKey) {
   await search(searchKey);
-}
+};

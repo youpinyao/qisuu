@@ -1,12 +1,25 @@
+const fs = require('fs');
 const path = require('path');
+
+let baseUrl = 'http://www.uidzhx.com';
+const baseUrlPath = path.resolve(__dirname, '../', '.config.json')
+
+// 读取配置
+if (fs.existsSync(baseUrlPath)) {
+  try {
+    baseUrl = fs.readFileSync(baseUrlPath).toJSON().baseUrl || baseUrl;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 module.exports = {
   // 同时下载数
   concurrent: 5,
   parser: 'qisuu',
-  origin: 'http://www.xqishuta.com',
-  pagesUrl: 'http://www.xqishuta.com/s/new/',
-  searchUrl: 'http://www.xqishuta.com/search.html',
+  origin: baseUrl,
+  pagesUrl: `${baseUrl}/s/new/`,
+  searchUrl: `${baseUrl}/search.html`,
   listPath: path.resolve(__dirname, '../json/list.json'),
   jsonPath:  path.resolve(__dirname, '../json'),
   downloadPath: path.resolve(__dirname, '../download'),
@@ -17,4 +30,6 @@ module.exports = {
   foreverLogPath: path.resolve(__dirname, '../forever.log'),
   outLogPath: path.resolve(__dirname, '../out.log'),
   errLogPath: path.resolve(__dirname, '../err.log'),
+  baseUrlPath,
+  baseUrl,
 }

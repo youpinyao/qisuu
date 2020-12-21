@@ -1,9 +1,10 @@
 {
   "name": "qisuu",
-  "version": "1.0.20",
-  "description": "pull http://www.xqishuta.com",
+  "version": "1.0.21",
+  "description": "",
   "main": "index.js",
   "scripts": {
+    "config": "node index.js config",
     "pick": "node index.js pick",
     "download": "node index.js download",
     "clear-cache": "node index.js clear-cache",

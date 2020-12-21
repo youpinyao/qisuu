@@ -2,6 +2,7 @@
 
 const commander = require('commander')
 
+const doConfig = require('./src/action/config');
 const doPick = require('./src/action/pick');
 const doDownload = require('./src/action/download');
 const doClearCache = require('./src/action/clear-cache');
@@ -15,9 +16,12 @@ commander
   .arguments('<cmd> [params1]')
   .action((cmd, params1) => {
     switch (cmd) {
+      case 'config':
+        doConfig()
+        break;
       case 'pick':
         doPick()
-        break
+        break;
       case 'download':
         doDownload();
         break;
