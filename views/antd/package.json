@@ -12,7 +12,7 @@
     "antd": "^3.0.0",
     "dva": "^2.1.0",
     "dva-loading": "^1.0.4",
-    "jquery": "^1.12.4",
+    "jquery": "^3.5.0",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.4",
     "meetyou-antd-base": "^0.0.41",
