@@ -7,5 +7,5 @@ Pull the resources at www.qisuu.la
 ````node
   npm i qisuu -g
 
-  qisuu search [searchKey]
+  qisu search [searchKey]
 ````
